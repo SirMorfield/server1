@@ -1,0 +1,3 @@
+[submodule "joppekoers.nl"]
+	path = joppekoers.nl
+	url = https://github.com/SirMorfield/joppekoers.nl.git
