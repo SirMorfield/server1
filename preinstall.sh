@@ -14,6 +14,7 @@ sudo add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://downloa
 sudo apt update
 sudo apt --yes --no-install-recommends install docker-ce docker-ce-cli containerd.io
 sudo usermod --append --groups docker "$USER"
+sleep 5
 sudo systemctl enable docker
 printf '\nDocker installed successfully\n\n'
 
@@ -24,9 +25,9 @@ sleep 10
 sudo apt install curl -y
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo ln -f -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-sudo groupadd docker
+sudo groupadd -f docker
 sudo usermod -aG docker $USER
 newgrp docker
 docker run hello-world --rm

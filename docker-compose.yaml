@@ -15,15 +15,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ${HOST_ROOT}/etc/nginx/:/etc/nginx/conf.d
-      - ${HOST_ROOT}/etc/letsencrypt/:/etc/letsencrypt
+      - ${HOST_ROOT}/etc/letsencrypt:/etc/letsencrypt
       - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
-    restart: unless-stopped
 
   certbot:
     image: certbot/certbot
     volumes:
       - ${HOST_ROOT}/etc/letsencrypt/:/etc/letsencrypt
       - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
-      - ${HOST_ROOT}/etc/nginx/:/etc/nginx/conf.d
-    command: certonly --email joppe.koers@gmail.com --agree-tos --no-eff-email --dry-run -d joppekoers.nl -d www.joppekoers.nl -d torrents.joppekoers.nl -d plex.joppekoers.nl -d files.joppekoers.nl
+    command: certonly --email joppe.koers@gmail.com --agree-tos --no-eff-email --dry-run --staging -d joppekoers.nl -d www.joppekoers.nl -d torrents.joppekoers.nl -d plex.joppekoers.nl -d files.joppekoers.nl

@@ -1,5 +1,15 @@
-FROM nginx
+FROM debian:buster
 
-COPY default.conf /etc/nginx/conf.d/default.conf
+RUN apt-get update
 
-ENTRYPOINT [ "nginx", "-t" ]
+RUN apt-get install nginx -y
+
+COPY nginx.conf /etc/nginx/sites-available/nginx.conf
+
+RUN rm -rf /etc/nginx/sites-enabled/* && \
+	ln -fs /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
+
+EXPOSE 443
+EXPOSE 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
