@@ -18,6 +18,21 @@ services:
       - ${HOST_ROOT}/etc/letsencrypt:/etc/letsencrypt
       - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
 
+  plex:
+    image: ghcr.io/linuxserver/plex
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM=claim-Le_ex28z3gJAske8w7nZ
+    ports:
+      - "32400:32400"
+    volumes:
+      - ${HOME}/files/config:/config
+      - ${HOME}/files/series:/tv
+      - ${HOME}/files/films:/movies
+    restart: unless-stopped
+
   certbot:
     image: certbot/certbot
     volumes:
