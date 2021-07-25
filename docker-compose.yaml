@@ -27,10 +27,20 @@ services:
       - PLEX_CLAIM=claim-Le_ex28z3gJAske8w7nZ
     ports:
       - "32400:32400"
+      - "1900:1900/udp"
+      - "3005:3005"
+      - "5354:5353/udp" #should be the same port, but on ubunutu ahavi-daemon uses the 5353 port already
+      - "8324:8324"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+      - "32469:32469"
     volumes:
-      - ${HOME}/files/config:/config
-      - ${HOME}/files/series:/tv
-      - ${HOME}/files/films:/movies
+      - ${HOME}/files/config/plex:/config
+      - ${HOME}/files/series:/mnt/series
+      - ${HOME}/files/films:/mnt/films
+      - ${HOME}/files/torrents/downloaded:/mnt/torrents
     restart: unless-stopped
 
   qbittorrent:
