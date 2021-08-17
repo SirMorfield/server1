@@ -7,6 +7,9 @@ up: preinstall
 down:
 	docker-compose down -t 2
 
+buildone:
+	docker-compose up -d --no-deps --build $(CONTAINER)
+
 preinstall:
 	sh ./srcs/preinstall.sh
 	touch preinstall

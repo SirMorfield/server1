@@ -57,22 +57,22 @@ services:
       - "8081:8081"
     restart: unless-stopped
 
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-      - "8084:80/tcp"
-    environment:
-      TZ: 'Europe/Amsterdam'
-    volumes:
-      - '${HOST_ROOT}/etc/pihole/:/etc/pihole/'
-      - '${HOST_ROOT}/etc/dnsmasq.d/:/etc/dnsmasq.d/'
-    cap_add:
-      - NET_ADMIN
-    restart: unless-stopped
+  # pihole:
+  #   container_name: pihole
+  #   image: pihole/pihole:latest
+  #   ports:
+  #     - "53:53/tcp"
+  #     - "53:53/udp"
+  #     - "67:67/udp"
+  #     - "8084:80/tcp"
+  #   environment:
+  #     TZ: 'Europe/Amsterdam'
+  #   volumes:
+  #     - '${HOST_ROOT}/etc/pihole/:/etc/pihole/'
+  #     - '${HOST_ROOT}/etc/dnsmasq.d/:/etc/dnsmasq.d/'
+  #   cap_add:
+  #     - NET_ADMIN
+  #   restart: unless-stopped
 
   certbot:
     image: certbot/certbot
@@ -80,3 +80,13 @@ services:
       - ${HOST_ROOT}/etc/letsencrypt/:/etc/letsencrypt
       - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
     command: certonly --email joppe.koers@gmail.com --agree-tos --no-eff-email --dry-run --staging -d joppekoers.nl -d www.joppekoers.nl -d torrents.joppekoers.nl -d plex.joppekoers.nl -d files.joppekoers.nl
+
+  rclone:
+    build: ./rclone
+    ports:
+      - 443
+    volumes:
+      - ${HOME}/files/dropbox/:/dropbox
+      - ${HOME}/files/googleDrive/:/googleDrive
+      - ${HOST_ROOT}/var/log/:/var/log/
+    restart: unless-stopped
