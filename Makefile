@@ -12,7 +12,6 @@ buildone:
 
 preinstall:
 	sh ./srcs/preinstall.sh
-	touch preinstall
 
 # delete everything cached by docker(-compose)
 reset:

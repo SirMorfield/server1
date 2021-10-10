@@ -8,15 +8,19 @@ services:
     restart: unless-stopped
 
   nginx:
-    build: ./nginx
-    depends_on:
-      - certbot
+    image: jonasal/nginx-certbot:latest
+    restart: unless-stopped
+    environment:
+      - CERTBOT_EMAIL=joppe.koers@gmail.com
+      # - STAGING=1
+    env_file:
+      - ./nginx-certbot.env
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
       - ${HOST_ROOT}/etc/letsencrypt:/etc/letsencrypt
-      - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
+      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
 
   plex:
     image: ghcr.io/linuxserver/plex
@@ -48,7 +52,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Amsterdam
       - WEBUI_PORT=8081
     volumes:
       - ${HOME}/files/torrents/config:/config
@@ -73,13 +77,6 @@ services:
   #   cap_add:
   #     - NET_ADMIN
   #   restart: unless-stopped
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ${HOST_ROOT}/etc/letsencrypt/:/etc/letsencrypt
-      - ${HOST_ROOT}/var/lib/letsencrypt/:/var/lib/letsencrypt/
-    command: certonly --email joppe.koers@gmail.com --agree-tos --no-eff-email --dry-run --staging -d joppekoers.nl -d www.joppekoers.nl -d torrents.joppekoers.nl -d plex.joppekoers.nl -d files.joppekoers.nl
 
   rclone:
     build: ./rclone
