@@ -1,0 +1,1 @@
+May take a couple minutes to start the nginx server on first startup since the Diffie-Hellman parameters need to be calculated

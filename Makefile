@@ -1,7 +1,7 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-up: preinstall
+up:
 	docker-compose up --build -d --remove-orphans
 
 down:
