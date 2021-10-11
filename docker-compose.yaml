@@ -4,7 +4,7 @@ services:
   nodejs:
     build: ./nodejs
     ports:
-      - "8080:8080"
+      - 8080:8080
     restart: unless-stopped
 
   nginx:
@@ -13,11 +13,9 @@ services:
     environment:
       - CERTBOT_EMAIL=joppe.koers@gmail.com
       # - STAGING=1
-      # - USE_ECDSA=1 # maybe in the future?
+      # - USE_ECDSA=1 # maybe in the future
       - DHPARAM_SIZE=2048
       - RSA_KEY_SIZE=4096
-    env_file:
-      - ./nginx-certbot.env
     ports:
       - 80:80
       - 443:443
@@ -33,16 +31,16 @@ services:
       - VERSION=docker
       - PLEX_CLAIM=claim-Le_ex28z3gJAske8w7nZ
     ports:
-      - "32400:32400"
-      - "1900:1900/udp"
-      - "3005:3005"
-      - "5354:5353/udp" #should be the same port, but on ubunutu ahavi-daemon uses the 5353 port already
-      - "8324:8324"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
-      - "32469:32469"
+      - 32400:32400
+      - 1900:1900/udp
+      - 3005:3005
+      - 5354:5353/udp # should be the same port, but on ubunutu ahavi-daemon uses the 5353 port already
+      - 8324:8324
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+      - 32469:32469
     volumes:
       - ${HOME}/files/config/plex:/config
       - ${HOME}/files/series:/mnt/series
@@ -61,17 +59,17 @@ services:
       - ${HOME}/files/torrents/config:/config
       - ${HOME}/files/torrents/:/mnt/files
     ports:
-      - "8081:8081"
+      - 8081:8081
     restart: unless-stopped
 
   # pihole:
   #   container_name: pihole
   #   image: pihole/pihole:latest
   #   ports:
-  #     - "53:53/tcp"
-  #     - "53:53/udp"
-  #     - "67:67/udp"
-  #     - "8084:80/tcp"
+  #     - 53:53/tcp
+  #     - 53:53/udp
+  #     - 67:67/udp
+  #     - 8084:80/tcp
   #   environment:
   #     TZ: 'Europe/Amsterdam'
   #   volumes:
@@ -84,7 +82,7 @@ services:
   rclone:
     build: ./rclone
     ports:
-      - 443
+      - 443:443
     volumes:
       - ${HOME}/files/dropbox/:/dropbox
       - ${HOME}/files/googleDrive/:/googleDrive
