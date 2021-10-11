@@ -13,6 +13,9 @@ services:
     environment:
       - CERTBOT_EMAIL=joppe.koers@gmail.com
       # - STAGING=1
+      # - USE_ECDSA=1 # maybe in the future?
+      - DHPARAM_SIZE=2048
+      - RSA_KEY_SIZE=4096
     env_file:
       - ./nginx-certbot.env
     ports:
