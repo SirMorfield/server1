@@ -20,7 +20,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ${HOST_ROOT}/etc/letsencrypt:/etc/letsencrypt
+      - ./runtimeGenerated/etc/letsencrypt:/etc/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
 
   plex:
@@ -62,6 +62,12 @@ services:
       - 8081:8081
     restart: unless-stopped
 
+  hours:
+    build: ./codamHours
+    restart: unless-stopped
+    volumes:
+      - ./codamHours:/app
+
   # pihole:
   #   container_name: pihole
   #   image: pihole/pihole:latest
@@ -79,12 +85,12 @@ services:
   #     - NET_ADMIN
   #   restart: unless-stopped
 
-  rclone:
-    build: ./rclone
-    ports:
-      - 443:443
-    volumes:
-      - ${HOME}/files/dropbox/:/dropbox
-      - ${HOME}/files/googleDrive/:/googleDrive
-      - ${HOST_ROOT}/var/log/:/var/log/
-    restart: unless-stopped
+  # rclone:
+  #   build: ./rclone
+  #   ports:
+  #     - 443:443
+  #   volumes:
+  #     - ${HOME}/files/dropbox/:/dropbox
+  #     - ${HOME}/files/googleDrive/:/googleDrive
+  #     - ${HOST_ROOT}/var/log/:/var/log/
+  #   restart: unless-stopped
