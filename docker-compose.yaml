@@ -20,7 +20,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./runtimeGenerated/etc/letsencrypt:/etc/letsencrypt
+      - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
 
   plex:
@@ -42,7 +42,7 @@ services:
       - 32414:32414/udp
       - 32469:32469
     volumes:
-      - ${HOME}/files/config/plex:/config
+      - ./runtimeGenerated/plex/config:/config
       - ${HOME}/files/series:/mnt/series
       - ${HOME}/files/films:/mnt/films
       - ${HOME}/files/torrents/downloaded:/mnt/torrents
@@ -56,7 +56,7 @@ services:
       - TZ=Europe/Amsterdam
       - WEBUI_PORT=8081
     volumes:
-      - ${HOME}/files/torrents/config:/config
+      - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
     ports:
       - 8081:8081
@@ -85,12 +85,10 @@ services:
   #     - NET_ADMIN
   #   restart: unless-stopped
 
-  # rclone:
-  #   build: ./rclone
-  #   ports:
-  #     - 443:443
-  #   volumes:
-  #     - ${HOME}/files/dropbox/:/dropbox
-  #     - ${HOME}/files/googleDrive/:/googleDrive
-  #     - ${HOST_ROOT}/var/log/:/var/log/
-  #   restart: unless-stopped
+  rclone:
+    build: ./rclone
+    volumes:
+      - ${HOME}/files/googleDrive/:/googleDrive
+      - ./runtimeGenerated/rclone/var/log/:/var/log/
+      - ./rclone/rclone.conf:/root/.config/rclone/rclone.conf
+    restart: unless-stopped
