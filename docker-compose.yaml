@@ -88,7 +88,6 @@ services:
   rclone:
     build: ./rclone
     volumes:
-      - ${HOME}/files/googleDrive/:/googleDrive
+      - ${HOME}/files/dump/googleDrive/:/googleDrive
       - ./runtimeGenerated/rclone/var/log/:/var/log/
-      - ./rclone/rclone.conf:/root/.config/rclone/rclone.conf
     restart: unless-stopped
