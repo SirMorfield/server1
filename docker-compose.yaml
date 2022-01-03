@@ -68,7 +68,17 @@ services:
     build: ./codamHours
     restart: unless-stopped
     volumes:
-      - ./codamHours:/app
+      - ./codamHours/database.json:/app/database.json
+      - ./codamHours/env:/app/env
+      - ./codamHours/sessions:/app/sessions
+
+  # hours:
+  #   build:
+  #     context: ./codamHours
+  #     dockerfile: Dockerfile.dev
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./codamHours:/app
 
   # pihole:
   #   container_name: pihole
