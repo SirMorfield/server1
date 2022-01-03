@@ -97,6 +97,18 @@ services:
   #     - NET_ADMIN
   #   restart: unless-stopped
 
+  factorio:
+    image: goofball222/factorio
+    restart: unless-stopped
+    ports:
+      - "27015:27015"
+      - "34197:34197/udp"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./runtimeGenerated/factorio:/factorio
+    environment:
+      - TZ=Europe/Amsterdam
+
   rclone:
     build: ./rclone
     volumes:
