@@ -100,9 +100,12 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Amsterdam
+      # - NVIDIA_DRIVER_CAPABILITIES=all
+      # - NVIDIA_VISIBLE_DEVICES=all
       # - JELLYFIN_PublishedServerUrl=192.168.2.1 #optional
     volumes:
       - ./runtimeGenerated/jellyfin/config:/config
+      - ./runtimeGenerated/jellyfin/cache:/cache
       - ${HOME}/files/series:/data/series
       - ${HOME}/files/films:/data/films
       - ${HOME}/files/torrents/downloaded:/data/torrents
@@ -111,3 +114,8 @@ services:
       # - 8920:8920 #optional
       # - 7359:7359/udp #optional
       # - 1900:1900/udp #optional
+      # deploy:
+      #   resources:
+      #     reservations:
+      #       devices:
+      #         - capabilities: [ gpu ]
