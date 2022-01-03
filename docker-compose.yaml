@@ -80,6 +80,16 @@ services:
   #   volumes:
   #     - ./codamHours:/app
 
+  # docker-compose stop hours
+  # docker-compose up -d --no-deps --build hours
+  # docker exec -it server1_hours_1 /bin/bash
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      # - './mongo.conf:/etc/mongo/mongo.conf'
+      - ./runtimeGenerated/data/db:/data/db'
+
   # pihole:
   #   container_name: pihole
   #   image: pihole/pihole:latest
