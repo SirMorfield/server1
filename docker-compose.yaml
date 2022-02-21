@@ -68,9 +68,7 @@ services:
     build: ./codamHours
     restart: unless-stopped
     volumes:
-      - ./codamHours/database.json:/app/database.json
       - ./codamHours/env:/app/env
-      - ./codamHours/sessions:/app/sessions
 
   # hours:
   #   build:
@@ -86,9 +84,10 @@ services:
 
   mongo:
     image: mongo:latest
+    restart: unless-stopped
     volumes:
       # - './mongo.conf:/etc/mongo/mongo.conf'
-      - ./runtimeGenerated/data/db:/data/db'
+      - ./runtimeGenerated/mongo/data/db:/data/db
 
   # pihole:
   #   container_name: pihole
