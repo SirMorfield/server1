@@ -12,3 +12,6 @@ RUN echo -e "verysecurlystoredpassword\nverysecurlystoredpassword" | smbpasswd -
 
 ENTRYPOINT ["smbd", "--foreground", "--debug-stdout", "--no-process-group"]
 CMD []
+
+# run this on macos to disable the creation of .Ds_Store files on network shares
+# defaults write com.apple.desktopservices DSDontWriteNetworkStores true
