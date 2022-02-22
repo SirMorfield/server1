@@ -150,3 +150,12 @@ services:
       #     reservations:
       #       devices:
       #         - capabilities: [ gpu ]
+
+  samba:
+    build: ./samba
+    restart: always
+    volumes:
+      - ./samba/smb.conf:/etc/samba/smb.conf
+      - /home/joppe:/share
+    ports:
+      - 445:445
