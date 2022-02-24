@@ -1,5 +1,14 @@
-include .env
-export $(shell sed 's/=.*//' .env)
+SECRETSFILE = inject-secrets.sh
+SECRETSFILE_ENCRYPTED = $(SECRETSFILE).gpg
+
+$(SECRETSFILE): $(SECRETSFILE_ENCRYPTED)
+	gpg --output $(SECRETSFILE) -decrypt $(SECRETSFILE_ENCRYPTED)
+
+decrypt: $(SECRETSFILE)
+	sh $(SECRETSFILE)
+
+encrypt:
+	gpg --no-symkey-cache --symmetric --output $(SECRETSFILE_ENCRYPTED) $(SECRETSFILE)
 
 up:
 	docker-compose up --build -d --remove-orphans

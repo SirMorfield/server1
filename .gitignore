@@ -1,3 +1,4 @@
 .DS_Store
 /runtimeGenerated
 /rclone/rclone.conf
+/inject-secrets.sh
