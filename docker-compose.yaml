@@ -3,8 +3,6 @@ version: "3"
 services:
   nodejs:
     build: ./nodejs
-    ports:
-      - 8080:8080
     volumes:
       - './nodejs:/app'
     restart: unless-stopped
@@ -160,13 +158,14 @@ services:
     ports:
       - 445:445
 
-  find-peers:
-    build: ./find-peers
-    restart: unless-stopped
   # find-peers:
-  #   build:
-  #     context: ./find-peers
-  #     dockerfile: Dockerfile.dev
-  #   restart: unless-stopped
+  #   build: ./find-peers
   #   volumes:
   #     - ./find-peers:/app
+  find-peers:
+    build:
+      context: ./find-peers
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    volumes:
+      - ./find-peers:/app
