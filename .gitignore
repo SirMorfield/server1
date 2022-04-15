@@ -2,3 +2,8 @@
 /runtimeGenerated
 /rclone/rclone.conf
 /inject-secrets.sh
+
+# secrets
+/samba/Dockerfile
+/rclone/rclone.conf
+/qbittorrent/qBittorrent.conf
