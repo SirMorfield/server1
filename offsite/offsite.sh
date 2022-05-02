@@ -1,21 +1,35 @@
 #!/bin/bash
 
+set -e # quit on error
+set -x # print exectued commands
+
 cd $HOME
 
-dirs+=$(cd $HOME && find files/ -maxdepth 1 \
+BACKUP_DIRS+=$(cd $HOME && find files/ -maxdepth 1 \
 	-not -name 'files' \
 	-not -name '.DS_Store' \
 	-not -name 'torrents' \
-	-not -name 'films' \
-	-not -name 'series' \
-	-not -name 'dump' \
-	-not -name 'other' \
 	-exec echo "'{}'" \; \
 	| tr '\n' ' ')
-dirs+="'server1/runtimeGenerated'"
-server="pi@192.168.2.15"
-sshcmd="'ssh'"
-host="server1"
+echo $BACKUP_DIRS
 
-echo $dirs
-sh -c "rsync --archive --no-links --human-readable -P --one-file-system --delete-after --delete-excluded -e $sshcmd $dirs $server:/mnt/files/"
+BACKUP_DIRS+="'server1/runtimeGenerated'"
+SERVER="root@192.168.2.21"
+SSHCMD="ssh"
+
+REMOTE_MOUNT_PATH="/root/files"
+REMOTE_DRIVE_UUID="5b328bfd-528f-4e46-9974-5f86ca196011" # Use blkid to find this
+REMOTE_LUKS_NAME="volume1"
+
+$SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
+# TODO: ony run if not mounted
+$SSHCMD $SERVER echo '' '|' cryptsetup luksOpen /dev/disk/by-uuid/5b328bfd-528f-4e46-9974-5f86ca196011 volume1 -d=-
+$SSHCMD $SERVER mount /dev/mapper/$REMOTE_LUKS_NAME $REMOTE_MOUNT_PATH
+
+# TODO: enable compression?
+sh -c "rsync --archive --no-links --human-readable -P --one-file-system --delete-after --delete-excluded -e \'$SSHCMD\' $BACKUP_DIRS $SERVER:$REMOTE_MOUNT_PATH"
+
+$SSHCMD $SERVER umount $REMOTE_MOUNT_PATH
+$SSHCMD $SERVER cryptsetup luksClose /dev/mapper/$REMOTE_LUKS_NAME
+
+cd -
