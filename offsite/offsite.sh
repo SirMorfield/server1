@@ -21,6 +21,8 @@ REMOTE_MOUNT_PATH="/root/files"
 REMOTE_DRIVE_UUID="5b328bfd-528f-4e46-9974-5f86ca196011" # Use blkid to find this
 REMOTE_LUKS_NAME="volume1"
 
+# TODO: shutdown and remote wake on lan
+
 $SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
 # TODO: ony run if not mounted
 $SSHCMD $SERVER echo '' '|' cryptsetup luksOpen /dev/disk/by-uuid/5b328bfd-528f-4e46-9974-5f86ca196011 volume1 -d=-
