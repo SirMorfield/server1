@@ -4,6 +4,3 @@
 [submodule "codamHours"]
 	path = codamHours
 	url = git@github.com:SirMorfield/codamHours.git
-[submodule "find-peers"]
-	path = find-peers
-	url = https://github.com/SirMorfield/find-peers.git
