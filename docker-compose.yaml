@@ -157,15 +157,3 @@ services:
       - /home/joppe:/share
     ports:
       - 445:445
-
-  # find-peers:
-  #   build: ./find-peers
-  #   volumes:
-  #     - ./find-peers:/app
-  find-peers:
-    build:
-      context: ./find-peers
-      dockerfile: Dockerfile.dev
-    restart: unless-stopped
-    volumes:
-      - ./find-peers:/app

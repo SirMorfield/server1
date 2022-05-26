@@ -7,3 +7,4 @@
 /samba/Dockerfile
 /rclone/rclone.conf
 /qbittorrent/qBittorrent.conf
+/offsite/offsite.sh
