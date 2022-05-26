@@ -1,171 +1,39 @@
 version: "3"
 
 services:
-  nodejs:
-    build: ./nodejs
-    volumes:
-      - './nodejs:/app'
-    restart: unless-stopped
-
-  nginx:
-    image: jonasal/nginx-certbot:latest
-    restart: unless-stopped
-    environment:
-      - CERTBOT_EMAIL=joppe.koers@gmail.com
-      # - STAGING=1
-      # - USE_ECDSA=1 # maybe in the future
-      - DHPARAM_SIZE=2048
-      - RSA_KEY_SIZE=4096
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
-
-  plex:
-    image: ghcr.io/linuxserver/plex
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - VERSION=docker
-      - PLEX_CLAIM=claim-Le_ex28z3gJAske8w7nZ
-    ports:
-      - 32400:32400
-      - 1900:1900/udp
-      - 3005:3005
-      - 5354:5353/udp # should be the same port, but on ubunutu ahavi-daemon uses the 5353 port already
-      - 8324:8324
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
-      - 32469:32469
-    volumes:
-      - ./runtimeGenerated/plex/config:/config
-      - ${HOME}/files/series:/mnt/series
-      - ${HOME}/files/films:/mnt/films
-      - ${HOME}/files/torrents/downloaded:/mnt/torrents
-    restart: unless-stopped
-
-  qbittorrent:
-    image: ghcr.io/linuxserver/qbittorrent
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
-      - WEBUI_PORT=8081
-    volumes:
-      - ./runtimeGenerated/qbittorrent/config:/config
-      - ${HOME}/files/torrents/:/mnt/files
-    ports:
-      - 8081:8081
-    restart: unless-stopped
-
-  hours:
-    build: ./codamHours
-    restart: unless-stopped
-    volumes:
-      - ./codamHours/env:/app/env
-
-  # hours:
-  #   build:
-  #     context: ./codamHours
-  #     dockerfile: Dockerfile.dev
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./codamHours:/app
-
-  # docker-compose stop hours
-  # docker-compose up -d --no-deps --build hours
-  # docker exec -it server1_hours_1 /bin/bash
-
-  mongo:
-    image: mongo:latest
-    restart: unless-stopped
-    volumes:
-      # - './mongo.conf:/etc/mongo/mongo.conf'
-      - ./runtimeGenerated/mongo/data/db:/data/db
-
-  # pihole:
-  #   container_name: pihole
-  #   image: pihole/pihole:latest
-  #   ports:
-  #     - 53:53/tcp
-  #     - 53:53/udp
-  #     - 67:67/udp
-  #     - 8084:80/tcp
-  #   environment:
-  #     TZ: 'Europe/Amsterdam'
-  #   volumes:
-  #     - '${HOST_ROOT}/etc/pihole/:/etc/pihole/'
-  #     - '${HOST_ROOT}/etc/dnsmasq.d/:/etc/dnsmasq.d/'
-  #   cap_add:
-  #     - NET_ADMIN
-  #   restart: unless-stopped
-
-  factorio:
-    image: goofball222/factorio
-    restart: unless-stopped
-    ports:
-      - "27015:27015"
-      - "34197:34197/udp"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./runtimeGenerated/factorio:/factorio
-    environment:
-      - TZ=Europe/Amsterdam
-
-  rclone:
-    build: ./rclone
-    volumes:
-      - ${HOME}/files/dump/googleDrive/:/googleDrive
-      - ./runtimeGenerated/rclone/var/log/:/var/log/
-    restart: unless-stopped
-
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
-      # - NVIDIA_DRIVER_CAPABILITIES=all
-      # - NVIDIA_VISIBLE_DEVICES=all
-      # - JELLYFIN_PublishedServerUrl=192.168.2.1 #optional
-    volumes:
-      - ./runtimeGenerated/jellyfin/config:/config
-      - ./runtimeGenerated/jellyfin/cache:/cache
-      - ${HOME}/files/series:/data/series
-      - ${HOME}/files/films:/data/films
-      - ${HOME}/files/torrents/downloaded:/data/torrents
-    ports:
-      - 8096:8096
-      # - 8920:8920 #optional
-      # - 7359:7359/udp #optional
-      # - 1900:1900/udp #optional
-      # deploy:
-      #   resources:
-      #     reservations:
-      #       devices:
-      #         - capabilities: [ gpu ]
-
-  samba:
-    build: ./samba
+  db:
+    image: mariadb
     restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
-      - ./samba/smb.conf:/etc/samba/smb.conf
-      - /home/joppe:/share
-    ports:
-      - 445:445
+      - ./runtimeGenerated/db/var/lib/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=neee
+      - MYSQL_PASSWORD=beeee
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
 
-  # find-peers:
-  #   build: ./find-peers
-  #   volumes:
-  #     - ./find-peers:/app
-  find-peers:
-    build:
-      context: ./find-peers
-      dockerfile: Dockerfile.dev
-    restart: unless-stopped
+  app:
+    image: nextcloud:fpm
+    restart: always
+    links:
+      - db
     volumes:
-      - ./find-peers:/app
+      - ./runtimeGenerated/nexcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=beeee
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+
+  web:
+    image: nginx
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - app
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    volumes_from:
+      - app
