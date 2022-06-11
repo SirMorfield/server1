@@ -3,13 +3,8 @@
 set -e # quit on error
 set -x # print exectued commands
 
-BACKUP_DIRS+=$(cd $HOME && find files/ -maxdepth 1 \
-	-not -name 'files' \
-	-not -name '.DS_Store' \
-	-not -name 'torrents' \
-	-exec echo "'{}'" \; \
-	| tr '\n' ' ')
-BACKUP_DIRS+="'server1/runtimeGenerated'"
+BACKUP_DIRS+="$HOME/files "
+BACKUP_DIRS+="$HOME/server1/runtimeGenerated "
 echo $BACKUP_DIRS
 
 SERVER="root@server"
