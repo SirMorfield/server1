@@ -3,7 +3,7 @@
 set -e # quit on error
 set -x # print exectued commands
 
-BACKUP_DIRS+="$HOME/files "
+BACKUP_DIRS+="$HOME/files/ "
 BACKUP_DIRS+="$HOME/server1/runtimeGenerated "
 echo $BACKUP_DIRS
 
