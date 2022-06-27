@@ -20,6 +20,8 @@ $SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
 $SSHCMD $SERVER echo 'INJECT_DISK_PASSWORD' '|' cryptsetup luksOpen /dev/disk/by-uuid/$REMOTE_DRIVE_UUID volume1 -d=- || true
 $SSHCMD $SERVER mount /dev/mapper/$REMOTE_LUKS_NAME $REMOTE_MOUNT_PATH || true
 
+$SSHCMD $SERVER "[[ $(cat docker-compose.yaml | grep ) ==  0 ]]"
+
 # TODO: enable compression?, verify disk is mounted
 sh -c "rsync --archive --no-links --human-readable -P --one-file-system --delete-after --delete-excluded -e '$SSHCMD' $BACKUP_DIRS $SERVER:$REMOTE_MOUNT_PATH" || true
 
