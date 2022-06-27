@@ -80,12 +80,12 @@ services:
   # docker-compose up -d --no-deps --build hours
   # docker exec -it server1_hours_1 /bin/bash
 
-  mongo:
-    image: mongo:latest
-    restart: unless-stopped
-    volumes:
-      # - './mongo.conf:/etc/mongo/mongo.conf'
-      - ./runtimeGenerated/mongo/data/db:/data/db
+  # mongo:
+  #   image: mongo:latest
+  #   restart: unless-stopped
+  #   volumes:
+  #     # - './mongo.conf:/etc/mongo/mongo.conf'
+  #     - ./runtimeGenerated/mongo/data/db:/data/db
 
   # pihole:
   #   container_name: pihole
