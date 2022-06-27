@@ -157,3 +157,9 @@ services:
       - /home/joppe:/share
     ports:
       - 445:445
+
+  is-intra-down:
+    build: ./is-intra-down
+    volumes:
+      - ./is-intra-down/history.json:/root/history.json
+    restart: unless-stopped
