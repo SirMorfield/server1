@@ -1,24 +1,36 @@
 const { execSync } = require('child_process')
 const fs = require('fs')
+const root = '/youtube'
 
-let urls = ''
-let nUrls = 0
-const likes = (fs.readFileSync('/videos/Liked videos.csv')).toString().split('\n')
+const likes = (fs.readFileSync(`${root}/Liked videos.csv`)).toString().split('\n')
 
+fs.mkdirSync(`${root}/videos/`, { recursive: true })
+const alreadyDownloaded = fs.readdirSync(`${root}/videos/`).map(file => file.split(' ').at(-1).split('.')[0])
+
+let urls = []
 for (const like of likes) {
-	if (like.match(/^.*\,\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d\ UTC$/)) {
-		const [id, date] = like.split(',')
-		if ((new Date(date)).getFullYear() >= 2017) {
-			urls += `https://www.youtube.com/watch?v=${id.trim()}\n` // .trim() because the csv sometimes prefixes id with a space id
-			nUrls++
-		}
-	}
+	if (!like.match(/^.*\,\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d\ UTC$/))
+		continue
+
+	let [id, date] = like.split(',')
+	id = id.trim() // .trim() because the csv sometimes prefixes id with a space id
+	if ((new Date(date)).getFullYear() < 2017)
+		continue
+	if (alreadyDownloaded.includes(id))
+		continue
+
+	urls.push(`https://www.youtube.com/watch?v=${id}`)
 }
 
-fs.writeFileSync('/videos/videos.txt', urls)
-console.log(`Added ${nUrls} of ${likes.length} urls`)
-fs.mkdirSync('/videos', { recursive: true })
+console.log('\n')
+console.log(`Already downloaded ${alreadyDownloaded.length} videos`)
+console.log(`Ignored            ${likes.length - urls.length} videos from before 2017`)
+console.log(`Downloading        ${urls.length} videos`)
+console.log('\n')
+
+fs.writeFileSync(`${root}/videos.txt`, urls.join('\n'))
+
 execSync(
-	`youtube-dl --no-overwrites --ignore-errors --add-metadata --format best -a '/videos/videos.txt' -o '/videos/%(title)s %(id)s.%(ext)s'`,
+	`youtube-dl --no-overwrites --ignore-errors --add-metadata --format best -a '${root}/videos.txt' -o '${root}/videos/%(title)s%(id)s.%(ext)s'`,
 	{ stdio: 'inherit' }
 )
