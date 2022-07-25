@@ -21,6 +21,7 @@ services:
       - 443:443
     volumes:
       - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
+      - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
 
   plex:
@@ -160,5 +161,5 @@ services:
   is-intra-down:
     build: ./is-intra-down
     volumes:
-      - ./is-intra-down/history.json:/root/history.json
+      - ./is-intra-down/:/root/
     restart: unless-stopped

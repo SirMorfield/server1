@@ -3,9 +3,10 @@ This script will download all your liked youtube videos:
 
 # Usage
 - Get a google takeout of your liked youtube videos
-- Replace $HOME/files/dump/youtube with the path you want the videos to be stored at
+- Replace $HOME/files/dump/youtube/ with the path you want the videos to be stored at
 - At the root of that path, paste the `Liked videos.csv`, straight from the google takeout
 ```
 docker build -t youtube-dl-takeout .
-docker run -v $HOME/files/dump/youtube:/videos/ youtube-dl-takeout --name youtube-dl-takeout
+docker run -v $HOME/files/dump/youtube/:/youtube/ --name youtube-dl-takeout --restart unless-stopped youtube-dl-takeout
+
 ```
