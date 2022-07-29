@@ -163,3 +163,49 @@ services:
     volumes:
       - ./is-intra-down/:/root/
     restart: unless-stopped
+
+  #bookclub-voting
+  backend:
+    container_name: bookclub-voting-backend
+    build:
+      context: ./bookclub-voting/backend
+      target: production
+    volumes:
+      # - ./backend:/app/
+      - backend_node_module:/app/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./bookclub-voting/.env
+    depends_on:
+      - postgres
+
+  #bookclub-voting
+  # frontend:
+  #   container_name: bookclub-voting-frontend
+  #   build:
+  #     context: ./frontend
+  #   volumes:
+  #     - ./frontend:/app/
+  #     - frontend_node_module:/app/node_modules
+  #   ports:
+  #     - "8080:8080"
+  #   links:
+  #     - backend
+
+  #bookclub-voting
+  postgres:
+    container_name: bookclub-voting-postgres
+    image: postgres:13
+    env_file:
+      - ./bookclub-voting/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+#bookclub-voting
+volumes:
+  backend_node_module:
+  frontend_node_module:
+  pgdata:
