@@ -186,25 +186,20 @@ services:
     volumes:
       # - ./backend:/app/
       - backend_node_module:/app/node_modules
-    ports:
-      - "3000:3000"
     env_file:
       - ./bookclub-voting/.env
     depends_on:
       - postgres
 
-  #bookclub-voting
-  # frontend:
-  #   container_name: bookclub-voting-frontend
-  #   build:
-  #     context: ./frontend
-  #   volumes:
-  #     - ./frontend:/app/
-  #     - frontend_node_module:/app/node_modules
-  #   ports:
-  #     - "8080:8080"
-  #   links:
-  #     - backend
+  frontend:
+    container_name: bookclub-voting-frontend
+    build:
+      context: ./bookclub-voting/frontend
+      target: production
+    volumes:
+      - frontend_node_module:/app/node_modules
+    env_file:
+      - ./bookclub-voting/.env
 
   #bookclub-voting
   postgres:
