@@ -164,6 +164,19 @@ services:
       - ./is-intra-down/:/root/
     restart: unless-stopped
 
+  minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - 25565:25565
+    environment:
+      EULA: "TRUE"
+      VERSION: "1.18.2"
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./runtimeGenerated/minecraft:/data
+
   #bookclub-voting
   backend:
     container_name: bookclub-voting-backend
