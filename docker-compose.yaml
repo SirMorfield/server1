@@ -171,6 +171,8 @@ services:
     environment:
       EULA: "TRUE"
       VERSION: "1.18.2"
+      TYPE: "FORGE"
+      FORGEVERSION: "40.1.68"
     tty: true
     stdin_open: true
     restart: unless-stopped
