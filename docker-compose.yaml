@@ -63,31 +63,6 @@ services:
       - 8081:8081
     restart: unless-stopped
 
-  hours:
-    build: ./codamHours
-    restart: unless-stopped
-    volumes:
-      - ./codamHours/env:/app/env
-
-  # hours:
-  #   build:
-  #     context: ./codamHours
-  #     dockerfile: Dockerfile.dev
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./codamHours:/app
-
-  # docker-compose stop hours
-  # docker-compose up -d --no-deps --build hours
-  # docker exec -it server1_hours_1 /bin/bash
-
-  # mongo:
-  #   image: mongo:latest
-  #   restart: unless-stopped
-  #   volumes:
-  #     # - './mongo.conf:/etc/mongo/mongo.conf'
-  #     - ./runtimeGenerated/mongo/data/db:/data/db
-
   # pihole:
   #   container_name: pihole
   #   image: pihole/pihole:latest

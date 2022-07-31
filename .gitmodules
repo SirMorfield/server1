@@ -1,10 +1,6 @@
 [submodule "nodejs"]
 	path = nodejs
 	url = https://github.com/SirMorfield/joppekoers.nl.git
-[submodule "codamHours"]
-	path = codamHours
-	url = git@github.com:SirMorfield/codamHours.git
-
 [submodule "is-intra-down"]
 	path = is-intra-down
 	url = https://github.com/FreekBes/isintradown.git
