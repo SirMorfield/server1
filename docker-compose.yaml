@@ -168,6 +168,7 @@ services:
     depends_on:
       - postgres
 
+  #bookclub-voting
   frontend:
     container_name: bookclub-voting-frontend
     build:
@@ -189,7 +190,33 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-#bookclub-voting
+  nextcloud-db:
+    image: mariadb:10.5
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - ./runtimeGenerated/nextcloud-db/var/lib/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  nextcloud-app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8085:80
+    links:
+      - nextcloud-db
+    volumes:
+      - ./runtimeGenerated/nextcloud-app/var/www/html:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=nextcloud-db
+
 volumes:
   backend_node_module:
   frontend_node_module:
