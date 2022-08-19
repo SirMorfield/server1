@@ -211,6 +211,8 @@ services:
       - nextcloud-db
     volumes:
       - ./runtimeGenerated/nextcloud-app/var/www/html:/var/www/html
+      - ${PWD}/nextcloud/config.php:/var/www/html/config/config.php
+      - /home/joppe/files:/files
     environment:
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=nextcloud
