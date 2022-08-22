@@ -42,4 +42,8 @@ $CONFIG = array (
 	'debug' => false,
 	'loglevel' => 2,
 	'filesystem_check_changes' => 1,
+
+	'overwritehost' => 'nginx',
+	'overwriteprotocol' => 'http',
+	'overwritewebroot' => '/nextcloud.joppekoers.nl',
 );
