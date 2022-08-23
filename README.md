@@ -1,6 +1,13 @@
 # Server1
 This repo is running the whole [joppekoers.nl](https://joppekoers.nl) infrastructure\
-With a bit of luck the whole thing should not take more than 5 commands.
+
+## Installation
+
+### Prerequisites
+- Debian based system
+- User `joppe`
+- Mount the storage medium on `/home/joppe/files/` automatically with `fstab`
+- Copy `syncthing/config.xml` to `./runtimeGenerated/syncthing/config/`
 
 ```shell
 /bin/sh -c "$(curl -fsSL https://get.docker.com)"
