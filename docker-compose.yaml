@@ -219,6 +219,24 @@ services:
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=nextcloud-db
 
+  syncthing:
+    image: syncthing/syncthing
+    restart: unless-stopped
+    container_name: syncthing
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./runtimeGenerated/syncthing:/var/syncthing
+      - /home/joppe/files/sync:/sync
+      - /home/joppe/files/sync-trash:/sync-trash
+    ports:
+      - 8384:8384 #       Web UI
+      - 22000:22000/tcp # TCP file transfers
+      - 22000:22000/udp # QUIC file transfers
+      - 21027:21027/udp # Receive local discovery broadcasts
+
 volumes:
   backend_node_module:
   frontend_node_module:
