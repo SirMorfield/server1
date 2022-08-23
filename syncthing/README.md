@@ -2,6 +2,10 @@
 
 After mounting you need to manually add `example.conf` to `/var/syncthing/config/config.xml` inside the container.
 
+# TODO
+Auto install instead of moving `example.conf`
+It requires to save all the cert files in the config dir to be saved (encrypted) in the git repo\
+Otherwise syncthing will generate new UIDs
 
 ## inotify limits
 You may need to increase `inotify` limit to make Syncthing work.
