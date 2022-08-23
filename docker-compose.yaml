@@ -230,7 +230,6 @@ services:
     volumes:
       - ./runtimeGenerated/syncthing:/var/syncthing
       - /home/joppe/files/sync:/sync
-      - /home/joppe/files/sync-trash:/sync-trash
     ports:
       - 8384:8384 #       Web UI
       - 22000:22000/tcp # TCP file transfers
