@@ -2,14 +2,16 @@ version: "3"
 
 services:
   nodejs:
+    container_name: nodejs
+    restart: unless-stopped
     build: ./nodejs
     volumes:
       - './nodejs:/app'
-    restart: unless-stopped
 
   nginx:
-    image: jonasal/nginx-certbot:latest
+    container_name: nginx
     restart: unless-stopped
+    image: jonasal/nginx-certbot:latest
     environment:
       - CERTBOT_EMAIL=joppe.koers@gmail.com
       # - STAGING=1
@@ -25,6 +27,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
 
   plex:
+    container_name: plex
+    restart: unless-stopped
     image: ghcr.io/linuxserver/plex
     environment:
       - PUID=1000
@@ -47,9 +51,10 @@ services:
       - ${HOME}/files/series:/mnt/series
       - ${HOME}/files/films:/mnt/films
       - ${HOME}/files/torrents/downloaded:/mnt/torrents
-    restart: unless-stopped
 
   qbittorrent:
+    container_name: qbittorrent
+    restart: unless-stopped
     image: ghcr.io/linuxserver/qbittorrent
     environment:
       - PUID=1000
@@ -59,9 +64,6 @@ services:
     volumes:
       - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
-    ports:
-      - 8081:8081
-    restart: unless-stopped
 
   # pihole:
   #   container_name: pihole
@@ -93,11 +95,12 @@ services:
   #     - TZ=Europe/Amsterdam
 
   rclone:
+    container_name: rclone
+    restart: unless-stopped
     build: ./rclone
     volumes:
       - ${HOME}/files/dump/googleDrive/:/googleDrive
       - ./runtimeGenerated/rclone/var/log/:/var/log/
-    restart: unless-stopped
       # jellyfin:
       #   image: lscr.io/linuxserver/jellyfin
       #   environment:
@@ -125,8 +128,9 @@ services:
       #         - capabilities: [ gpu ]
 
   samba:
+    container_name: samba
+    restart: unless-stopped
     build: ./samba
-    restart: always
     volumes:
       - ./samba/smb.conf:/etc/samba/smb.conf
       - /home/joppe:/share
@@ -134,12 +138,15 @@ services:
       - 445:445
 
   is-intra-down:
+    container_name: is-intra-down
+    restart: unless-stopped
     build: ./is-intra-down
     volumes:
       - ./is-intra-down/:/root/
-    restart: unless-stopped
 
   minecraft:
+    container_name: minecraft
+    restart: unless-stopped
     image: itzg/minecraft-server
     ports:
       - 25565:25565
@@ -150,13 +157,13 @@ services:
       FORGEVERSION: "40.1.68"
     tty: true
     stdin_open: true
-    restart: unless-stopped
     volumes:
       - ./runtimeGenerated/minecraft:/data
 
   #bookclub-voting
   backend:
     container_name: bookclub-voting-backend
+    restart: unless-stopped
     build:
       context: ./bookclub-voting/backend
       target: production
@@ -171,6 +178,7 @@ services:
   #bookclub-voting
   frontend:
     container_name: bookclub-voting-frontend
+    restart: unless-stopped
     build:
       context: ./bookclub-voting/frontend
       target: production
@@ -182,6 +190,7 @@ services:
   #bookclub-voting
   postgres:
     container_name: bookclub-voting-postgres
+    restart: unless-stopped
     image: postgres:13
     env_file:
       - ./bookclub-voting/.env
@@ -191,8 +200,9 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   nextcloud-db:
+    container_name: nextcloud-db
+    restart: unless-stopped
     image: mariadb:10.5
-    restart: always
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
       - ./runtimeGenerated/nextcloud-db/var/lib/mysql:/var/lib/mysql
@@ -203,10 +213,9 @@ services:
       - MYSQL_USER=nextcloud
 
   nextcloud-app:
+    container_name: nextcloud-app
+    restart: unless-stopped
     image: nextcloud
-    restart: always
-    ports:
-      - 8085:80
     links:
       - nextcloud-db
     volumes:
@@ -220,10 +229,9 @@ services:
       - MYSQL_HOST=nextcloud-db
 
   syncthing:
-    image: syncthing/syncthing
-    restart: unless-stopped
     container_name: syncthing
-
+    restart: unless-stopped
+    image: syncthing/syncthing
     environment:
       - PUID=1000
       - PGID=1000
@@ -231,7 +239,6 @@ services:
       - ./runtimeGenerated/syncthing:/var/syncthing
       - /home/joppe/files/sync:/sync
     ports:
-      - 8384:8384 #       Web UI
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Receive local discovery broadcasts
