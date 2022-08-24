@@ -13,7 +13,6 @@ This repo is running the whole [joppekoers.nl](https://joppekoers.nl) infrastruc
 /bin/sh -c "$(curl -fsSL https://get.docker.com)"
 git clone git@github.com:SirMorfield/server1.git
 cd server1
-make decrypt # inject secrets into example files
 make up
 ```
 
