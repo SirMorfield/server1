@@ -24,6 +24,7 @@ inject: $(SECRETSFILE)
 
 encrypt:
 	gpg --yes --no-symkey-cache --symmetric --output $(SECRETSFILE_ENCRYPTED) $(SECRETSFILE)
+	git add $(SECRETSFILE_ENCRYPTED)
 
 down:
 	docker-compose down -t 2
