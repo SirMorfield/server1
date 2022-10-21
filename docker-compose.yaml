@@ -238,6 +238,7 @@ services:
     volumes:
       - ./runtimeGenerated/syncthing:/var/syncthing
       - /home/joppe/files/sync:/sync
+      - /home/joppe/git:/git
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
