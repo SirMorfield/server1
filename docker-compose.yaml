@@ -1,12 +1,10 @@
-version: "3"
+version: 3
 
 services:
   nodejs:
     container_name: nodejs
     restart: unless-stopped
     build: ./nodejs
-    volumes:
-      - './nodejs:/app'
 
   nginx:
     container_name: nginx
@@ -65,35 +63,6 @@ services:
       - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
 
-  # pihole:
-  #   container_name: pihole
-  #   image: pihole/pihole:latest
-  #   ports:
-  #     - 53:53/tcp
-  #     - 53:53/udp
-  #     - 67:67/udp
-  #     - 8084:80/tcp
-  #   environment:
-  #     TZ: 'Europe/Amsterdam'
-  #   volumes:
-  #     - '${HOST_ROOT}/etc/pihole/:/etc/pihole/'
-  #     - '${HOST_ROOT}/etc/dnsmasq.d/:/etc/dnsmasq.d/'
-  #   cap_add:
-  #     - NET_ADMIN
-  #   restart: unless-stopped
-
-  # factorio:
-  #   image: goofball222/factorio
-  #   restart: unless-stopped
-  #   ports:
-  #     - "27015:27015"
-  #     - "34197:34197/udp"
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - ./runtimeGenerated/factorio:/factorio
-  #   environment:
-  #     - TZ=Europe/Amsterdam
-
   rclone:
     container_name: rclone
     restart: unless-stopped
@@ -101,31 +70,6 @@ services:
     volumes:
       - ${HOME}/files/dump/googleDrive/:/googleDrive
       - ./runtimeGenerated/rclone/var/log/:/var/log/
-      # jellyfin:
-      #   image: lscr.io/linuxserver/jellyfin
-      #   environment:
-      #     - PUID=1000
-      #     - PGID=1000
-      #     - TZ=Europe/Amsterdam
-      #     # - NVIDIA_DRIVER_CAPABILITIES=all
-      #     # - NVIDIA_VISIBLE_DEVICES=all
-      #     # - JELLYFIN_PublishedServerUrl=192.168.2.1 #optional
-      #   volumes:
-      #     - ./runtimeGenerated/jellyfin/config:/config
-      #     - ./runtimeGenerated/jellyfin/cache:/cache
-      #     - ${HOME}/files/series:/data/series
-      #     - ${HOME}/files/films:/data/films
-      #     - ${HOME}/files/torrents/downloaded:/data/torrents
-      #   ports:
-      #     - 8096:8096
-      # - 8920:8920 #optional
-      # - 7359:7359/udp #optional
-      # - 1900:1900/udp #optional
-      # deploy:
-      #   resources:
-      #     reservations:
-      #       devices:
-      #         - capabilities: [ gpu ]
 
   samba:
     container_name: samba
@@ -137,24 +81,7 @@ services:
     ports:
       - 445:445
 
-  # minecraft:
-  #   container_name: minecraft
-  #   restart: unless-stopped
-  #   image: itzg/minecraft-server
-  #   ports:
-  #     - 25565:25565
-  #   environment:
-  #     EULA: "TRUE"
-  #     VERSION: "1.18.2"
-  #     TYPE: "FORGE"
-  #     FORGEVERSION: "40.1.68"
-  #   tty: true
-  #   stdin_open: true
-  #   volumes:
-  #     - ./runtimeGenerated/minecraft:/data
-
-  #bookclub-voting
-  backend:
+  bookclub-voting-backend:
     container_name: bookclub-voting-backend
     restart: unless-stopped
     build:
@@ -168,8 +95,7 @@ services:
     depends_on:
       - postgres
 
-  #bookclub-voting
-  frontend:
+  bookclub-voting-frontend:
     container_name: bookclub-voting-frontend
     restart: unless-stopped
     build:
@@ -180,15 +106,14 @@ services:
     env_file:
       - ./bookclub-voting/.env
 
-  #bookclub-voting
-  postgres:
+  bookclub-voting-postgres:
     container_name: bookclub-voting-postgres
     restart: unless-stopped
     image: postgres:13
     env_file:
       - ./bookclub-voting/.env
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
 
