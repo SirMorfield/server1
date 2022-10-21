@@ -137,28 +137,21 @@ services:
     ports:
       - 445:445
 
-  is-intra-down:
-    container_name: is-intra-down
-    restart: unless-stopped
-    build: ./is-intra-down
-    volumes:
-      - ./is-intra-down/:/root/
-
-  minecraft:
-    container_name: minecraft
-    restart: unless-stopped
-    image: itzg/minecraft-server
-    ports:
-      - 25565:25565
-    environment:
-      EULA: "TRUE"
-      VERSION: "1.18.2"
-      TYPE: "FORGE"
-      FORGEVERSION: "40.1.68"
-    tty: true
-    stdin_open: true
-    volumes:
-      - ./runtimeGenerated/minecraft:/data
+  # minecraft:
+  #   container_name: minecraft
+  #   restart: unless-stopped
+  #   image: itzg/minecraft-server
+  #   ports:
+  #     - 25565:25565
+  #   environment:
+  #     EULA: "TRUE"
+  #     VERSION: "1.18.2"
+  #     TYPE: "FORGE"
+  #     FORGEVERSION: "40.1.68"
+  #   tty: true
+  #   stdin_open: true
+  #   volumes:
+  #     - ./runtimeGenerated/minecraft:/data
 
   #bookclub-voting
   backend:
