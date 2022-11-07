@@ -24,7 +24,8 @@ $CONFIG = array (
 	array (
 		0 => 'nextcloud-app',
 		1 => 'localhost',
-		2 => 'nextcloud.joppekoers.nl',
+		2 => '127.0.0.1',
+		3 => 'nextcloud.joppekoers.nl',
 	),
 	'datadirectory' => '/var/www/html/data',
 	'dbtype' => 'mysql',
