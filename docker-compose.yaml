@@ -81,7 +81,7 @@ services:
     ports:
       - 445:445
 
-  bookclub-voting-backend:
+  backend:
     container_name: bookclub-voting-backend
     restart: unless-stopped
     build:
@@ -95,7 +95,7 @@ services:
     depends_on:
       - postgres
 
-  bookclub-voting-frontend:
+  frontend:
     container_name: bookclub-voting-frontend
     restart: unless-stopped
     build:
@@ -106,7 +106,7 @@ services:
     env_file:
       - ./bookclub-voting/.env
 
-  bookclub-voting-postgres:
+  postgres:
     container_name: bookclub-voting-postgres
     restart: unless-stopped
     image: postgres:13
