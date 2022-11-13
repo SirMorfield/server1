@@ -4,7 +4,11 @@ services:
   nodejs:
     container_name: nodejs
     restart: unless-stopped
-    build: ./nodejs
+    build:
+      context: ./nodejs
+      target: frontend
+    env:
+      - PORT=8080
 
   nginx:
     container_name: nginx
