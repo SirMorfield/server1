@@ -26,5 +26,5 @@ export async function sendMail(to: string, content: string, subject?: string): P
 	}
 
 	const resp = await transporter.sendMail(mailOptions)
-	console.log('Email sent: ', resp)
+	console.log(new Date().toISOString(), 'Email sent: ', resp)
 }

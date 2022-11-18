@@ -14,7 +14,7 @@ interface Alert {
 }
 
 async function getFindPeersAlert(): Promise<undefined | Alert> {
-	const maxSyncHours = 48 // maximum time since last sync
+	const maxSyncHours = 35 // maximum time since last sync
 
 	try {
 		const response = await fetch('https://find-peers.codam.nl/status/pull')
@@ -36,23 +36,31 @@ async function getFindPeersAlert(): Promise<undefined | Alert> {
 		}
 	}
 }
-;
+
+let sendAlerts: { type: string, date: Date }[] = []
+
+	;
 (async () => {
 	console.log('Starting monitoring')
 	while (true) {
-		const alerts: (undefined | Alert)[] = [
-			await getFindPeersAlert()
-		].filter((x) => x !== undefined)
+		const deleteBefore = new Date(Date.now() - 1000 * 60 * 60 * 5)
+		sendAlerts = sendAlerts.filter((x) => x.date < deleteBefore) // remove old emails
 
+		const alerts1 = [
+			await getFindPeersAlert()
+		].filter((x) => !!x) as Alert[]
+
+		const alerts = alerts1.filter((x) => !sendAlerts.find((y) => y.type === x.type)) // don't send the same email multiple times
 
 		if (alerts.length > 0) {
 			const content = alerts
-				.map((x) => `${x?.date.toISOString()}: ${x?.type}\n${x?.message}`)
+				.map((x) => `${x.date.toISOString()}: ${x.type}\n${x.message}`)
 				.join('\n---------------\n')
 
-			await sendMail(process.env['RECEIVER_EMAIL'] || '', content, `${alerts.length.toString().padStart(2, ' ')}  Monitoring alerts`)
+			sendAlerts.push(...alerts.map((x) => ({ type: x!.type, date: x!.date })))
+			await sendMail(process.env['RECEIVER_EMAIL'] || '', content, `${alerts.length.toString().padStart(2)}  Monitoring alerts`)
 		}
 
-		await new Promise(resolve => setTimeout(resolve, 4 * 60 * 60 * 1000)) // TODO check mor often, but don't send too many emails
+		await new Promise(resolve => setTimeout(resolve, 60 * 1000)) // TODO check mor often, but don't send too many emails
 	}
 })()
