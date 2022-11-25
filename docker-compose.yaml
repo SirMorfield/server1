@@ -136,7 +136,6 @@ services:
       - MYSQL_USER=nextcloud
 
   nextcloud-app:
-    container_name: nextcloud-app
     restart: unless-stopped
     image: nextcloud
     links:
@@ -150,6 +149,20 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=nextcloud-db
+
+  cron:
+    image: rcdailey/nextcloud-cronjob
+    restart: unless-stopped
+    network_mode: none
+    depends_on:
+      - nextcloud-app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - NEXTCLOUD_CONTAINER_NAME=nextcloud-app
+      - NEXTCLOUD_PROJECT_NAME=server1
+      - DEBUG=1
 
   syncthing:
     container_name: syncthing
