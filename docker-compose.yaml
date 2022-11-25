@@ -77,14 +77,17 @@ services:
       - ./runtimeGenerated/rclone/var/log/:/var/log/
 
   samba:
-    container_name: samba
+    image: crazymax/samba
     restart: unless-stopped
-    build: ./samba
     volumes:
-      - ./samba/smb.conf:/etc/samba/smb.conf
-      - /home/joppe:/share
+      - ./samba/config.yml:/data/config.yml
+      - ./samba/password_joppe:/data/password_joppe:ro
+      - /home/joppe:/samba/share
     ports:
       - 445:445
+    environment:
+      - "TZ=Europe/Amsterdam"
+      - "SAMBA_LOG_LEVEL=0"
 
   backend:
     container_name: bookclub-voting-backend
