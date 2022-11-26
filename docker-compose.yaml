@@ -89,8 +89,6 @@ services:
       - "TZ=Europe/Amsterdam"
       - "SAMBA_LOG_LEVEL=0"
 
-  # NOTE: while developing, switch to local volumes and target to production
-
   bookclub-backend:
     container_name: bookclub-backend
     restart: unless-stopped
