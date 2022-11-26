@@ -26,6 +26,7 @@ encrypt:
 	gpg --yes --no-symkey-cache --symmetric --output $(SECRETSFILE_ENCRYPTED) $(SECRETSFILE)
 	git add $(SECRETSFILE_ENCRYPTED)
 
+stop: down
 down:
 	docker-compose down -t 2
 
