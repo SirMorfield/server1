@@ -3,7 +3,7 @@ auth:
     group: joppe
     uid: 1000
     gid: 1000
-    password_file: /data/joppe_password
+    password_file: /data/password_joppe
 
 global:
   - "force user = joppe"
