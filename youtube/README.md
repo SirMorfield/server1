@@ -1,5 +1,5 @@
 This script will download all your liked youtube videos:
-`https://takeout.google.com/takeout/custom/youtube?dnm=false&continue=https://myaccount.google.com/yourdata/youtube&hl=en_GB&utm_source=privacy-advisor-youtube`
+https://takeout.google.com/takeout/custom/youtube?dnm=false&continue=https://myaccount.google.com/yourdata/youtube&hl=en_GB&utm_source=privacy-advisor-youtube
 
 # Usage
 - Get a google takeout of your liked youtube videos
