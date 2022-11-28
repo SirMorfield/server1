@@ -13,13 +13,7 @@ services:
   nginx:
     container_name: nginx
     restart: unless-stopped
-    image: jonasal/nginx-certbot:latest
-    environment:
-      - CERTBOT_EMAIL=joppe.koers@gmail.com
-      # - STAGING=1
-      # - USE_ECDSA=1 # maybe in the future
-      - DHPARAM_SIZE=2048
-      - RSA_KEY_SIZE=4096
+    image: nginx:alpine
     ports:
       - 80:80
       - 443:443
@@ -27,7 +21,6 @@ services:
       - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
       - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
-      - ./nginx/ssl.conf:/etc/nginx/fragments/ssl.conf
 
   plex:
     container_name: plex
