@@ -20,7 +20,7 @@ services:
     volumes:
       - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
       - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
 
   plex:
     container_name: plex
