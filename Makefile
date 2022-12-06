@@ -33,6 +33,10 @@ down:
 buildone:
 	docker-compose up -d --no-deps --build $(CONTAINER)
 
+hot-reload-nginx:
+	docker exec -it nginx nginx -t
+	docker kill -s HUP nginx
+
 # delete everything cached by docker(-compose)
 reset:
 	docker stop $(docker ps -qa)
