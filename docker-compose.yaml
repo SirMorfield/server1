@@ -77,8 +77,8 @@ services:
     ports:
       - 445:445
     environment:
-      - "TZ=Europe/Amsterdam"
-      - "SAMBA_LOG_LEVEL=0"
+      - TZ=Europe/Amsterdam
+      - SAMBA_LOG_LEVEL=0
 
   bookclub-backend:
     container_name: bookclub-backend
