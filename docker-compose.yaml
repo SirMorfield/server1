@@ -169,7 +169,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./runtimeGenerated/syncthing:/var/syncthing
+      - ./runtimeGenerated/syncthing/var/syncthing:/var/syncthing
       - /home/joppe/files/sync:/sync
       - /home/joppe/git:/git
     ports:
