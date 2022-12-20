@@ -177,10 +177,6 @@ services:
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Receive local discovery broadcasts
 
-  monitor:
-    container_name: monitor
-    build: ./monitor
-
 volumes:
   backend_node_module:
   frontend_node_module:
