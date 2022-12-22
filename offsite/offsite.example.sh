@@ -5,6 +5,7 @@ set -x # print exectued commands
 
 BACKUP_DIRS+="$HOME/files/ "
 BACKUP_DIRS+="$HOME/server1/runtimeGenerated "
+BACKUP_DIRS+="$HOME/git "
 echo $BACKUP_DIRS
 
 SERVER="root@server"
@@ -21,7 +22,7 @@ $SSHCMD $SERVER echo 'INJECT_DISK_PASSWORD' '|' cryptsetup luksOpen /dev/disk/by
 $SSHCMD $SERVER mount /dev/mapper/$REMOTE_LUKS_NAME $REMOTE_MOUNT_PATH || true
 
 # TODO: enable compression?, verify disk is mounted
-sh -c "rsync --archive --no-links --human-readable -P --one-file-system --delete-after --delete-excluded -e '$SSHCMD' $BACKUP_DIRS $SERVER:$REMOTE_MOUNT_PATH" || true
+sh -c "rsync -z --archive --no-links --human-readable -P --one-file-system --delete-excluded -e '$SSHCMD' $BACKUP_DIRS $SERVER:$REMOTE_MOUNT_PATH" || true
 
 $SSHCMD $SERVER umount $REMOTE_MOUNT_PATH
 $SSHCMD $SERVER cryptsetup luksClose /dev/mapper/$REMOTE_LUKS_NAME
