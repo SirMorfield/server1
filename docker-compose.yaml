@@ -59,14 +59,6 @@ services:
       - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
 
-  rclone:
-    container_name: rclone
-    restart: unless-stopped
-    build: ./rclone
-    volumes:
-      - ${HOME}/files/dump/googleDrive/:/googleDrive
-      - ./runtimeGenerated/rclone/var/log/:/var/log/
-
   samba:
     image: crazymax/samba
     restart: unless-stopped

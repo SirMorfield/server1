@@ -59,3 +59,11 @@ services:
     stdin_open: true
     volumes:
       - ./runtimeGenerated/minecraft:/data
+
+  rclone:
+    container_name: rclone
+    restart: unless-stopped
+    build: ./rclone
+    volumes:
+      - ${HOME}/files/dump/googleDrive/:/googleDrive
+      - ./runtimeGenerated/rclone/var/log/:/var/log/
