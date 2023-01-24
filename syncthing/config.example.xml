@@ -1,18 +1,13 @@
-<configuration version="36">
-    <folder id="sync" label="sync" path="/sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
+<configuration version="37">
+    <folder id="default" label="Default Folder" path="/var/syncthing/Sync" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
         <filesystemType>basic</filesystemType>
-        <device id="QJ7LUMG-BLAKJNB-NZX6XW6-XPF2YXA-NOCLUM5-Q674WFK-VMJ2KAO-TQKDXQQ" introducedBy="">
-            <encryptionPassword></encryptionPassword>
-        </device>
-        <device id="2PIJUXN-FAUXXFA-CJHGWQD-RU4AFZM-DQRN4DA-TDPFEMO-FYJSC3O-SJMCCAJ" introducedBy="">
+        <device id="4ANDFHT-EUB2ZLV-Z4SH7FD-RTRN7OP-T6JFEA2-OGA3GNJ-GIEKNPE-NWPJIA4" introducedBy="">
             <encryptionPassword></encryptionPassword>
         </device>
         <minDiskFree unit="%">1</minDiskFree>
-        <versioning type="simple">
-            <param key="cleanoutDays" val="0"></param>
-            <param key="keep" val="5"></param>
-            <cleanupIntervalS>86400</cleanupIntervalS>
-            <fsPath>/sync-trash</fsPath>
+        <versioning>
+            <cleanupIntervalS>3600</cleanupIntervalS>
+            <fsPath></fsPath>
             <fsType>basic</fsType>
         </versioning>
         <copiers>0</copiers>
@@ -36,18 +31,16 @@
         <copyRangeMethod>standard</copyRangeMethod>
         <caseSensitiveFS>false</caseSensitiveFS>
         <junctionsAsDirs>false</junctionsAsDirs>
+        <syncOwnership>false</syncOwnership>
+        <sendOwnership>false</sendOwnership>
+        <syncXattrs>false</syncXattrs>
+        <sendXattrs>false</sendXattrs>
+        <xattrFilter>
+            <maxSingleEntrySize>1024</maxSingleEntrySize>
+            <maxTotalSize>4096</maxTotalSize>
+        </xattrFilter>
     </folder>
-    <device id="QJ7LUMG-BLAKJNB-NZX6XW6-XPF2YXA-NOCLUM5-Q674WFK-VMJ2KAO-TQKDXQQ" name="macbook-pro" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
-        <address>dynamic</address>
-        <paused>false</paused>
-        <autoAcceptFolders>false</autoAcceptFolders>
-        <maxSendKbps>0</maxSendKbps>
-        <maxRecvKbps>0</maxRecvKbps>
-        <maxRequestKiB>0</maxRequestKiB>
-        <untrusted>false</untrusted>
-        <remoteGUIPort>0</remoteGUIPort>
-    </device>
-    <device id="2PIJUXN-FAUXXFA-CJHGWQD-RU4AFZM-DQRN4DA-TDPFEMO-FYJSC3O-SJMCCAJ" name="server1" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+    <device id="4ANDFHT-EUB2ZLV-Z4SH7FD-RTRN7OP-T6JFEA2-OGA3GNJ-GIEKNPE-NWPJIA4" name="9c1826faada4" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
         <address>dynamic</address>
         <paused>false</paused>
         <autoAcceptFolders>false</autoAcceptFolders>
@@ -59,8 +52,6 @@
     </device>
     <gui enabled="true" tls="false" debugging="false">
         <address>127.0.0.1:8384</address>
-        <user>admin</user>
-        <password>INJECT_PASSWORD</password>
         <apikey>INJECT_APIKEY</apikey>
         <theme>dark</theme>
     </gui>
@@ -88,17 +79,17 @@
         <urURL>https://data.syncthing.net/newdata</urURL>
         <urPostInsecurely>false</urPostInsecurely>
         <urInitialDelayS>1800</urInitialDelayS>
-        <restartOnWakeup>true</restartOnWakeup>
         <autoUpgradeIntervalH>12</autoUpgradeIntervalH>
         <upgradeToPreReleases>false</upgradeToPreReleases>
         <keepTemporariesH>24</keepTemporariesH>
         <cacheIgnoredFiles>false</cacheIgnoredFiles>
         <progressUpdateIntervalS>5</progressUpdateIntervalS>
         <limitBandwidthInLan>false</limitBandwidthInLan>
-        <minHomeDiskFree unit="%">10</minHomeDiskFree>
+        <minHomeDiskFree unit="%">1</minHomeDiskFree>
         <releasesURL>https://upgrades.syncthing.net/meta.json</releasesURL>
         <overwriteRemoteDeviceNamesOnConnect>false</overwriteRemoteDeviceNamesOnConnect>
         <tempIndexMinBlocks>10</tempIndexMinBlocks>
+        <unackedNotificationID>authenticationUserAndPassword</unackedNotificationID>
         <trafficClass>0</trafficClass>
         <setLowPriority>true</setLowPriority>
         <maxFolderConcurrency>0</maxFolderConcurrency>
@@ -118,7 +109,7 @@
     <defaults>
         <folder id="" label="" path="~" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
             <filesystemType>basic</filesystemType>
-            <device id="2PIJUXN-FAUXXFA-CJHGWQD-RU4AFZM-DQRN4DA-TDPFEMO-FYJSC3O-SJMCCAJ" introducedBy="">
+            <device id="4ANDFHT-EUB2ZLV-Z4SH7FD-RTRN7OP-T6JFEA2-OGA3GNJ-GIEKNPE-NWPJIA4" introducedBy="">
                 <encryptionPassword></encryptionPassword>
             </device>
             <minDiskFree unit="%">1</minDiskFree>
@@ -148,6 +139,14 @@
             <copyRangeMethod>standard</copyRangeMethod>
             <caseSensitiveFS>false</caseSensitiveFS>
             <junctionsAsDirs>false</junctionsAsDirs>
+            <syncOwnership>false</syncOwnership>
+            <sendOwnership>false</sendOwnership>
+            <syncXattrs>false</syncXattrs>
+            <sendXattrs>false</sendXattrs>
+            <xattrFilter>
+                <maxSingleEntrySize>1024</maxSingleEntrySize>
+                <maxTotalSize>4096</maxTotalSize>
+            </xattrFilter>
         </folder>
         <device id="" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
             <address>dynamic</address>
