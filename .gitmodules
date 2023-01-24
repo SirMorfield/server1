@@ -1,9 +1,6 @@
 [submodule "nodejs"]
 	path = nodejs
 	url = https://github.com/SirMorfield/joppekoers.nl.git
-[submodule "is-intra-down"]
-	path = is-intra-down
-	url = https://github.com/FreekBes/isintradown.git
 [submodule "bookclub-voting"]
 	path = bookclub-voting
 	url = https://github.com/mraasvel/bookclub-voting.git
