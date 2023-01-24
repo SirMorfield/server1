@@ -190,6 +190,16 @@ services:
     environment:
       - TZ=Europe/Amsterdam
 
+  filebrowser:
+    container_name: filebrowser
+    volumes:
+      - /home/joppe:/srv
+      - ./runtimeGenerated/filebrowser/database.db:/database.db
+      - ./runtimeGenerated/filebrowser/.filebrowser.json:/.filebrowser.json
+    ports:
+      - 8080:80
+    image: filebrowser/filebrowser
+
 volumes:
   backend_node_module:
   frontend_node_module:
