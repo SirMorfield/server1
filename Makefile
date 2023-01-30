@@ -7,7 +7,7 @@ MAGENTA = \033[1;35m\033[47m
 # /Clolors
 
 up: $(SECRETSFILE)
-	docker-compose up --build -d --remove-orphans
+	docker compose up --build -d --remove-orphans
 
 $(SECRETSFILE): $(SECRETSFILE_ENCRYPTED)
 	gpg --yes --output $(SECRETSFILE) --decrypt $(SECRETSFILE_ENCRYPTED)
@@ -28,10 +28,10 @@ encrypt:
 
 stop: down
 down:
-	docker-compose down -t 2
+	docker compose down -t 2
 
 buildone:
-	docker-compose up -d --no-deps --build $(CONTAINER)
+	docker compose up -d --no-deps --build $(CONTAINER)
 
 hot-reload-nginx:
 	docker exec -it nginx nginx -t
