@@ -122,6 +122,7 @@ services:
       - ./runtimeGenerated/syncthing/var/syncthing:/var/syncthing
       - /home/joppe/files/sync:/sync
       - /home/joppe/git:/git
+      - /home/joppe/git_deleted:/git_deleted
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
