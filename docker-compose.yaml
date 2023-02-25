@@ -160,6 +160,7 @@ services:
     environment:
       EULA: "TRUE"
       VERSION: "1.19.3"
+      MEMORY: 2G
     tty: true
     stdin_open: true
     volumes:
