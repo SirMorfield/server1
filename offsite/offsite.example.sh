@@ -13,7 +13,7 @@ REMOTE_DRIVE_UUID="5b328bfd-528f-4e46-9974-5f86ca196011" # Use blkid to find thi
 REMOTE_LUKS_NAME="volume1"
 EXCLUDE="--exclude={'**/node_modules','**/.DS_Store'}"
 
-RSYNC="rsync -z --archive --no-links --human-readable --partial --progress --one-file-system --delete-excluded $EXCLUDE"
+RSYNC="rsync --archive --no-links --human-readable --partial --progress --one-file-system --delete-excluded $EXCLUDE"
 
 $SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
 $SSHCMD $SERVER echo "$REMOTE_MOUNT_PASSWORD" '|' cryptsetup luksOpen /dev/disk/by-uuid/$REMOTE_DRIVE_UUID volume1 -d=- || true
