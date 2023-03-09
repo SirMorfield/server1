@@ -15,15 +15,18 @@ EXCLUDE="--exclude={'**/node_modules','**/.DS_Store'}"
 
 RSYNC="rsync -z --archive --no-links --human-readable --partial --progress --one-file-system --delete-excluded $EXCLUDE"
 
-$SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
-$SSHCMD $SERVER echo "$REMOTE_MOUNT_PASSWORD" '|' cryptsetup luksOpen /dev/disk/by-uuid/$REMOTE_DRIVE_UUID volume1 -d=- || true
-$SSHCMD $SERVER mount /dev/mapper/$REMOTE_LUKS_NAME $REMOTE_MOUNT_PATH || true
-
 # Copy ssd folders to big hdd
 $RSYNC "$HOME/server1/runtimeGenerated" "$BACKUP_DIR/sync/server1"
 $RSYNC "$HOME/git" "$BACKUP_DIR/sync"
 
-# TODO: verify disk is mounted
+$SSHCMD $SERVER mkdir -p $REMOTE_MOUNT_PATH
+$SSHCMD $SERVER echo "$REMOTE_MOUNT_PASSWORD" '|' cryptsetup luksOpen /dev/disk/by-uuid/$REMOTE_DRIVE_UUID volume1 -d=- || true
+$SSHCMD $SERVER mount /dev/mapper/$REMOTE_LUKS_NAME $REMOTE_MOUNT_PATH || true
+
+# Assert that the remote drive is mounted
+fs_size_gb=$($SSHCMD $SERVER "df -BG $REMOTE_MOUNT_PATH" | awk 'NR==2{ print $2 }' | tr -d 'G')
+(( $fs_size_gb > 100 ))
+
 $RSYNC -e "$SSHCMD" "$BACKUP_DIR" "$SERVER:$REMOTE_MOUNT_PATH" || true
 
 $SSHCMD $SERVER umount $REMOTE_MOUNT_PATH
