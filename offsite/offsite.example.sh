@@ -13,7 +13,7 @@ REMOTE_DRIVE_UUID="5b328bfd-528f-4e46-9974-5f86ca196011" # Use blkid to find thi
 REMOTE_LUKS_NAME="volume1"
 EXCLUDE="--exclude={'**/node_modules','**/.DS_Store'}"
 
-RSYNC="rsync -z --archive --no-links --human-readable --partial --progress --one-file-system --delete-excluded $EXCLUDE"
+RSYNC="rsync --archive --no-links --human-readable --partial --progress --one-file-system --delete-excluded $EXCLUDE"
 
 # Copy ssd folders to big hdd
 $RSYNC "$HOME/server1/runtimeGenerated" "$BACKUP_DIR/sync/server1"
