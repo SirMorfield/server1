@@ -81,45 +81,6 @@ services:
       - TZ=Europe/Amsterdam
       - SAMBA_LOG_LEVEL=0
 
-  bookclub-backend:
-    container_name: bookclub-backend
-    restart: unless-stopped
-    build:
-      context: ./bookclub-voting/backend
-      target: production
-    volumes:
-      - backend_node_module:/app/node_modules
-    env_file:
-      - ./bookclub-voting/.env
-    environment:
-      - PORT=3000
-      - POSTGRES_HOST=bookclub-postgres
-    depends_on:
-      - bookclub-postgres
-
-  bookclub-frontend:
-    container_name: bookclub-frontend
-    restart: unless-stopped
-    build:
-      context: ./bookclub-voting/frontend
-      target: production
-    volumes:
-      - frontend_node_module:/app/node_modules
-    env_file:
-      - ./bookclub-voting/.env
-    environment:
-      - PORT=8080
-      - BACKEND_URL=http://bookclub-backend:3000
-
-  bookclub-postgres:
-    container_name: bookclub-postgres
-    image: postgres:13
-    restart: unless-stopped
-    env_file:
-      - ./bookclub-voting/.env
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   syncthing:
     container_name: syncthing
     restart: unless-stopped
