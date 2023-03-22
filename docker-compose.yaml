@@ -146,8 +146,3 @@ services:
         condition: service_healthy
       filebrowser:
         condition: service_healthy
-
-volumes:
-  backend_node_module:
-  frontend_node_module:
-  pgdata:
