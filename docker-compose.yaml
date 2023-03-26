@@ -10,25 +10,6 @@ services:
     environment:
       - PORT=8080
 
-  nginx:
-    container_name: nginx
-    restart: unless-stopped
-    image: jonasal/nginx-certbot:latest
-    environment:
-      - CERTBOT_EMAIL=joppe.koers@gmail.com
-      # - STAGING=1
-      # - USE_ECDSA=1 # maybe in the future
-      - DHPARAM_SIZE=2048
-      - RSA_KEY_SIZE=4096
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
-      - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
-      - ./nginx/ssl.conf:/etc/nginx/fragments/ssl.conf
-
   plex:
     container_name: plex
     restart: unless-stopped
@@ -136,8 +117,32 @@ services:
     volumes:
       - ./runtimeGenerated/minecraft:/data
 
-
-volumes:
-  backend_node_module:
-  frontend_node_module:
-  pgdata:
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: jonasal/nginx-certbot:latest
+    environment:
+      - CERTBOT_EMAIL=joppe.koers@gmail.com
+      # - STAGING=1
+      # - USE_ECDSA=1 # maybe in the future
+      - DHPARAM_SIZE=2048
+      - RSA_KEY_SIZE=4096
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
+      - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
+      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
+      - ./nginx/ssl.conf:/etc/nginx/fragments/ssl.conf
+    depends_on:
+      nodejs:
+        condition: service_started
+      plex:
+        condition: service_started
+      qbittorrent:
+        condition: service_started
+      syncthing:
+        condition: service_healthy
+      filebrowser:
+        condition: service_healthy
