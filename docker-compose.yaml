@@ -79,19 +79,6 @@ services:
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Receive local discovery broadcasts
 
-  factorio:
-    container_name: factorio
-    image: goofball222/factorio:experimental
-    restart: unless-stopped
-    ports:
-      - 27015:27015
-      - 34197:34197/udp
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./runtimeGenerated/factorio:/factorio
-    environment:
-      - TZ=Europe/Amsterdam
-
   filebrowser:
     container_name: filebrowser
     volumes:

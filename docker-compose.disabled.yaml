@@ -60,6 +60,19 @@ services:
     volumes:
       - ./runtimeGenerated/minecraft:/data
 
+  factorio:
+    container_name: factorio
+    image: goofball222/factorio:experimental
+    restart: unless-stopped
+    ports:
+      - 27015:27015
+      - 34197:34197/udp
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./runtimeGenerated/factorio:/factorio
+    environment:
+      - TZ=Europe/Amsterdam
+
   rclone:
     container_name: rclone
     restart: unless-stopped
