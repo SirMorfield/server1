@@ -52,9 +52,8 @@ services:
       - 25565:25565
     environment:
       EULA: "TRUE"
-      VERSION: "1.18.2"
-      TYPE: "FORGE"
-      FORGEVERSION: "40.1.68"
+      VERSION: "1.19.3"
+      MEMORY: 2G
     tty: true
     stdin_open: true
     volumes:

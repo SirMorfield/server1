@@ -89,20 +89,6 @@ services:
       - 8080:80
     image: filebrowser/filebrowser
 
-  minecraft:
-    container_name: minecraft
-    restart: unless-stopped
-    image: itzg/minecraft-server
-    ports:
-      - 25565:25565
-    environment:
-      EULA: "TRUE"
-      VERSION: "1.19.3"
-      MEMORY: 2G
-    tty: true
-    stdin_open: true
-    volumes:
-      - ./runtimeGenerated/minecraft:/data
 
   nginx:
     container_name: nginx
