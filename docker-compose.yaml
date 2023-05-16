@@ -106,8 +106,7 @@ services:
     volumes:
       - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
       - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf
-      - ./nginx/ssl.conf:/etc/nginx/fragments/ssl.conf
+      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf:ro
     depends_on:
       nodejs:
         condition: service_started
