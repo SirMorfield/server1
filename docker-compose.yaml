@@ -1,14 +1,27 @@
 version: '3'
 
 services:
-  nodejs:
-    container_name: nodejs
+  joppekoers.nl:
+    container_name: joppekoers.nl
+    image: ghcr.io/sirmorfield/joppekoers.nl/frontend:latest
     restart: unless-stopped
-    build:
-      context: ./nodejs
-      target: frontend
+    volumes:
+      - ./cdn.joppekoers.nl/projectImg:/app/build/client/img/projectImg
     environment:
       - PORT=8080
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: joppekoers.nl
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_POLL_INTERVAL=30
+      - WATCHTOWER_ROLLING_RESTART=true
 
   plex:
     container_name: plex
@@ -121,7 +134,7 @@ services:
       - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf:ro
     depends_on:
-      nodejs:
+      joppekoers.nl:
         condition: service_started
       plex:
         condition: service_started
