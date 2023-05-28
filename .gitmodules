@@ -1,6 +1,3 @@
-[submodule "nodejs"]
-	path = nodejs
-	url = https://github.com/SirMorfield/joppekoers.nl.git
 [submodule "cdn.joppekoers.nl"]
 	path = cdn.joppekoers.nl
 	url = git@github.com:SirMorfield/cdn.joppekoers.nl.git
