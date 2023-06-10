@@ -10,7 +10,7 @@ const alreadyDownloaded = fs.readdirSync(`${root}/videos/`).map(file => file.spl
 const ignoreBefore = 2017
 let urls = []
 for (const like of likes) {
-	if (!like.match(/^.*\,\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d\ UTC$/))
+	if (!like.match(/^.*\,\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d\ (UTC|Z)$/))
 		continue
 
 	let [id, date] = like.split(',')
