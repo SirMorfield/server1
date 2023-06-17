@@ -8,5 +8,5 @@ https://takeout.google.com/takeout/custom/youtube?dnm=false&continue=https://mya
 ```shell
 scp "$HOME/Downloads/Takeout/YouTube and YouTube Music/playlists/Liked videos.csv" joppe@s1public:/home/joppe/files/dump/youtube
 docker build -t youtube-dl-takeout .
-docker run -v $HOME/files/dump/youtube/:/youtube/ --name youtube-dl-takeout --restart unless-stopped youtube-dl-takeout
+docker run -v $HOME/files/dump/youtube/:/youtube/ --rm --name youtube-dl-takeout youtube-dl-takeout
 ```

@@ -32,6 +32,6 @@ console.log('\n')
 fs.writeFileSync(`${root}/videos.txt`, urls.join('\n'))
 
 execSync(
-	`youtube-dl --no-overwrites --ignore-errors --continue --add-metadata --format best -a '${root}/videos.txt' -o '${root}/videos/%(title)s %(id)s.%(ext)s'`,
+	`/usr/local/bin/youtube-dl --verbose --no-overwrites --ignore-errors --continue --add-metadata --format best -a '${root}/videos.txt' -o '${root}/videos/%(title)s %(id)s.%(ext)s'`,
 	{ stdio: 'inherit' }
 )
