@@ -17,4 +17,4 @@ share:
     guestok: no
     validusers: joppe
     writelist: joppe
-    veto: no
+    veto: yes
