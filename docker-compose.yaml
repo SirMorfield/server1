@@ -62,18 +62,18 @@ services:
       - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
 
-  samba:
-    image: crazymax/samba
-    restart: unless-stopped
-    volumes:
-      - ./samba/config.yml:/data/config.yml
-      - ./samba/password_joppe:/data/password_joppe:ro
-      - /home/joppe:/samba/share
-    ports:
-      - 445:445
-    environment:
-      - TZ=Europe/Amsterdam
-      - SAMBA_LOG_LEVEL=0
+  # samba:
+  #   image: crazymax/samba
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./samba/config.yml:/data/config.yml
+  #     - ./samba/password_joppe:/data/password_joppe:ro
+  #     - /home/joppe:/samba/share
+  #   ports:
+  #     - 445:445
+  #   environment:
+  #     - TZ=Europe/Amsterdam
+  #     - SAMBA_LOG_LEVEL=0
 
   syncthing:
     container_name: syncthing
@@ -115,6 +115,26 @@ services:
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
     ports:
       - 10001:8125/udp
+
+  nfs:
+    container_name: nfs
+    restart: unless-stopped
+    image: erichough/nfs-server
+    privileged: true
+    volumes:
+      - /home/joppe/files:/share
+    environment:
+      - NFS_EXPORT_0=/share *(rw,fsid=0,insecure,no_subtree_check,all_squash)
+      # - NFS_EXPORT_0=/share joppe(rw,fsid=0,insecure,no_subtree_check,no_root_squash)
+
+    cap_add:
+      - SYS_ADMIN
+      - SETPCAP
+    ports:
+      - 111:111
+      - 2049:2049
+      - 32765:32765
+      - 32767:32767
 
   nginx:
     container_name: nginx
