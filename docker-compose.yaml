@@ -16,12 +16,12 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: joppekoers.nl
     environment:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_INCLUDE_RESTARTING=true
       - WATCHTOWER_POLL_INTERVAL=30
       - WATCHTOWER_ROLLING_RESTART=true
+    command: joppekoers.nl pixels
 
   plex:
     container_name: plex
@@ -122,6 +122,29 @@ services:
       - 2049:2049
       - 32765:32765
       - 32767:32767
+
+  pixels:
+    container_name: pixels
+    image: ghcr.io/pixelcorp-nl/canvas.edu/canvas.edu:latest
+    restart: unless-stopped
+    env_file:
+      - ./pixels/.env
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - ./runtimeGenerated/pixels/redis-db:/data
+
+  postgres:
+    container_name: postgres
+    restart: unless-stopped
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./runtimeGenerated/pixels/postgres-db:/var/lib/postgresql/data
 
   nginx:
     container_name: nginx
