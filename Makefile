@@ -3,7 +3,7 @@ SECRETSFILE_ENCRYPTED = $(SECRETSFILE).gpg
 
 # Colors
 RESET = \033[0;0m
-MAGENTA = \033[1;35m\033[47m
+MAGENTA = \033[0;35m
 # /Clolors
 
 up: $(SECRETSFILE)
@@ -36,6 +36,13 @@ buildone:
 hot-reload-nginx:
 	docker exec -it nginx nginx -t
 	docker kill -s HUP nginx
+	@echo "$(MAGENTA)NGINX succesfully restarted with new conf$(RESET)"
+
+update-subdomains:
+	docker exec -it nginx nginx -t # first check if the config is valid
+	docker compose stop nginx
+	sudo rm -rf ./runtimeGenerated/nginx
+	docker compose start nginx
 
 # delete everything cached by docker(-compose)
 reset:
