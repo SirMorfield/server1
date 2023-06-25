@@ -121,3 +121,16 @@ services:
       - NEXTCLOUD_CONTAINER_NAME=nextcloud-app
       - NEXTCLOUD_PROJECT_NAME=server1
       - DEBUG=1
+
+  samba:
+    image: crazymax/samba
+    restart: unless-stopped
+    volumes:
+      - ./samba/config.yml:/data/config.yml
+      - ./samba/password_joppe:/data/password_joppe:ro
+      - /home/joppe:/samba/share
+    ports:
+      - 445:445
+    environment:
+      - TZ=Europe/Amsterdam
+      - SAMBA_LOG_LEVEL=0

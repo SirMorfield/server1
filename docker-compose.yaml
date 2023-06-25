@@ -62,19 +62,6 @@ services:
       - ./runtimeGenerated/qbittorrent/config:/config
       - ${HOME}/files/torrents/:/mnt/files
 
-  # samba:
-  #   image: crazymax/samba
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./samba/config.yml:/data/config.yml
-  #     - ./samba/password_joppe:/data/password_joppe:ro
-  #     - /home/joppe:/samba/share
-  #   ports:
-  #     - 445:445
-  #   environment:
-  #     - TZ=Europe/Amsterdam
-  #     - SAMBA_LOG_LEVEL=0
-
   syncthing:
     container_name: syncthing
     restart: unless-stopped
