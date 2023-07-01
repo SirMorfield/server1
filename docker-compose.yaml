@@ -129,6 +129,9 @@ services:
     restart: unless-stopped
     env_file:
       - ./pixels/.env
+    depends_on:
+      - redis
+      - postgres
 
   redis:
     container_name: redis
