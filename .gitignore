@@ -12,3 +12,4 @@
 /syncthing/config.xml
 /samba/password_joppe
 /.env
+/cms/.env

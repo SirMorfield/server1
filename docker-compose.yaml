@@ -10,6 +10,20 @@ services:
     environment:
       - PORT=8080
 
+  cms:
+    container_name: cms
+    image: ghcr.io/sirmorfield/joppekoers.nl/cms
+    restart: unless-stopped
+    volumes:
+      - ./cms/public/uploads:/app/public/uploads
+      - ./cms/db.db:/app/db.db
+    env_file:
+      - cms/.env
+    environment:
+      - PORT=1337
+    ports:
+      - 1337:1337
+
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
@@ -21,7 +35,7 @@ services:
       - WATCHTOWER_INCLUDE_RESTARTING=true
       - WATCHTOWER_POLL_INTERVAL=30
       - WATCHTOWER_ROLLING_RESTART=true
-    command: joppekoers.nl pixels
+    command: joppekoers.nl pixels cms
 
   plex:
     container_name: plex
@@ -168,6 +182,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf:ro
     depends_on:
       joppekoers.nl:
+        condition: service_started
+      cms:
         condition: service_started
       plex:
         condition: service_started
