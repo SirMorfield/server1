@@ -3,7 +3,7 @@ version: '3'
 services:
   joppekoers.nl:
     container_name: joppekoers.nl
-    image: ghcr.io/sirmorfield/joppekoers.nl/frontend:latest
+    image: ghcr.io/sirmorfield/joppekoers.nl/frontend
     restart: unless-stopped
     volumes:
       - ./cdn.joppekoers.nl/projectImg:/app/build/client/img/projectImg
@@ -105,7 +105,7 @@ services:
 
   datadog-agent:
     container_name: datadog-agent
-    image: gcr.io/datadoghq/agent:latest
+    image: gcr.io/datadoghq/agent
     pid: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -139,7 +139,7 @@ services:
 
   pixels:
     container_name: pixels
-    image: ghcr.io/pixelcorp-nl/canvas.edu/canvas.edu:latest
+    image: ghcr.io/pixelcorp-nl/canvas.edu/canvas.edu
     restart: unless-stopped
     env_file:
       - ./pixels/.env
@@ -166,7 +166,7 @@ services:
   nginx:
     container_name: nginx
     restart: unless-stopped
-    image: jonasal/nginx-certbot:latest
+    image: jonasal/nginx-certbot
     environment:
       - CERTBOT_EMAIL=joppe.koers@gmail.com
       # - STAGING=1
