@@ -190,6 +190,6 @@ services:
       qbittorrent:
         condition: service_started
       syncthing:
-        condition: service_healthy
+        condition: service_started
       filebrowser:
-        condition: service_healthy
+        condition: service_started
