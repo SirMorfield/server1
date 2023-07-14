@@ -15,8 +15,8 @@ services:
     image: ghcr.io/sirmorfield/joppekoers.nl/cms
     restart: unless-stopped
     volumes:
-      - ./runtimeGenerated/cms/uploads:/app/public/uploads
-      - ./runtimeGenerated/cms/db.db:/app/db.db
+      - ./runtimeGenerated/cms/app/db:/app/db
+      - ./runtimeGenerated/cms/app/public:/app/public
     env_file:
       - cms/.env
     environment:
