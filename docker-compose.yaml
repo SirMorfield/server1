@@ -15,10 +15,7 @@ services:
     image: ghcr.io/sirmorfield/joppekoers.nl/cms
     restart: unless-stopped
     volumes:
-      - ./runtimeGenerated/cms/app/db:/app/db
-      - ./runtimeGenerated/cms/app/public:/app/public
-    env_file:
-      - cms/.env
+      - ./runtimeGenerated/cms/projects:/app/projects
     environment:
       - PORT=1337
     ports:
