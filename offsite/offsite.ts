@@ -12,7 +12,7 @@ const SSHCMD="ssh -p 10001"
 const REMOTE_MOUNT_PASSWORD = "Misschien1"
 const REMOTE_MOUNT_PATH = "/root/files"
 const REMOTE_TRASH_DIR = `${REMOTE_MOUNT_PATH}/deleted`
-const REMOTE_DRIVE_UUID = "5b328bfd-528f-4e46-9974-5f86ca196011" // Use blkid to find this
+const REMOTE_DRIVE_UUID = "5b328bfd-528f-4e46-9974-5f86ca196011" // Use `ls -l /dev/disk/by-uuid/` to find this
 const REMOTE_LUKS_NAME = "volume1"
 const EXCLUDE = "--exclude={'**/node_modules','**/.DS_Store'}"
 
@@ -29,6 +29,8 @@ while (true) {
 // Copy ssd folders to big hdd
 await rsyncLocal(`${HOME}/server1/runtimeGenerated`, `${BACKUP_DIR}/sync/server1`)
 await rsyncLocal(`${HOME}/git`, `${BACKUP_DIR}/sync`)
+
+await rsyncLocal(`${HOME}/files`, `${HOME}/extended`)
 
 await execRemote(`mkdir -p ${REMOTE_MOUNT_PATH}`)
 await execRemote(`mkdir -p ${REMOTE_TRASH_DIR}`)
@@ -119,7 +121,7 @@ async function rsyncRemote(from: string, to: string) {
 async function getDisk(type: 'size' | 'available') {
 	const fsSizeGbOut = await execRemote(`df -BG ${REMOTE_MOUNT_PATH}`, false)
 	const i = type === 'size' ? 1 : 3
-	const fsSizeGB = Number(fsSizeGbOut.split('\n')[1].split(' ',).filter(Boolean)[i].replace('G', ''))
+	const fsSizeGB = Number(fsSizeGbOut?.split('\n')?.[1]?.split(' ',)?.filter(Boolean)?.[i]?.replace('G', ''))
 	if (!Number.isFinite(fsSizeGB)) {
 		exitWith(`Could not get fs size: ${fsSizeGbOut}`)
 	}
