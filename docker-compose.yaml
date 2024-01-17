@@ -69,8 +69,10 @@ services:
     # user: uid:gid
     volumes:
       - ./runtimeGenerated/jellyfin/config:/config
-      - ./runtimeGenerated/jellyfin//cache:/cache
-      - ${HOME}/files/films:/media:ro
+      - ./runtimeGenerated/jellyfin/cache:/cache
+      - ${HOME}/files/films:/files/films:ro
+      - ${HOME}/files/series:/files/series:ro
+      - ${HOME}/files/torrents/downloaded:/files/torrents:ro
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.joppekoers.nl
     # Optional - may be necessary for docker healthcheck to pass if running in host network mode
