@@ -43,6 +43,7 @@ update-subdomains:
 	docker compose stop nginx
 	sudo rm -rf ./runtimeGenerated/nginx
 	docker compose start nginx
+	docker logs --tail 10000 -f nginx
 
 # delete everything cached by docker(-compose)
 reset:
