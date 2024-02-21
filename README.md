@@ -17,6 +17,9 @@ make up
 ```
 
 ## Notes
+```shell
+scp ~/Downloads/CV\ Joppe\ Koers.pdf joppe@80.61.192.39:~/server1/runtimeGenerated/cms/media/CV\ Joppe\ Koers.pdf
+```
 May take a couple minutes to start the nginx server on first startup since the Diffie-Hellman parameters need to be calculated
 
 
