@@ -127,7 +127,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
-    env_file: .env
+    env_file: ./datadog-agent/.env
     environment:
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
     ports:
@@ -179,10 +179,39 @@ services:
     volumes:
       - ./runtimeGenerated/pixels/postgres-db:/var/lib/postgresql/data
 
+  github-runner-celebratix:
+      container_name: github-runner-celebratix
+      image: myoung34/github-runner
+      restart: unless-stopped
+      environment:
+          - RUNNER_NAME_PREFIX=joppe-server1
+          - RUNNER_WORKDIR=/runner
+          - RUNNER_GROUP=joppe-group
+          - RUNNER_SCOPE=org
+          - ORG_NAME=Celebratix
+          - LABELS=joppe
+      env_file:
+          - ./github-runner-celebratix/.env
+      volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - ./runtimeGenerated/github-runner-celebratix/runner:/runner
+          - ./runtimeGenerated/github-runner-celebratix/root/.nuget/packages:/root/.nuget/packages
+          - ./runtimeGenerated/github-runner-celebratix/root/.npm:/root/.npm
+
+  tunnel:
+    container_name: tunnel
+    depends_on:
+      - nginx
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    env_file:
+      - ./tunnel/.env
+
   nginx:
     container_name: nginx
     restart: unless-stopped
-    image: jonasal/nginx-certbot
+    image: nginx:alpine
     environment:
       - CERTBOT_EMAIL=joppe.koers@gmail.com
       # - STAGING=1
@@ -193,9 +222,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./runtimeGenerated/nginx/etc/letsencrypt:/etc/letsencrypt
-      - ./runtimeGenerated/nginx/var/log/letsencrypt:/var/log/letsencrypt
-      - ./nginx/nginx.conf:/etc/nginx/user_conf.d/joppekoers.nl.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       joppekoers.nl:
         condition: service_started
