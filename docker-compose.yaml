@@ -162,6 +162,8 @@ services:
     depends_on:
       - redis
       - postgres
+    ports:
+      - 5173:5173
 
   redis:
     container_name: redis
@@ -181,8 +183,11 @@ services:
 
   github-runner-celebratix:
       container_name: github-runner-celebratix
-      image: myoung34/github-runner
+      image: myoung34/github-runner:ubuntu-noble
       restart: unless-stopped
+        # deploy:
+        #       mode: replicated
+        # replicas: 2
       environment:
           - RUNNER_NAME_PREFIX=joppe-server1
           - RUNNER_WORKDIR=/runner
