@@ -11,4 +11,5 @@
 /nextcloud/config.php
 /syncthing/config.xml
 /samba/password_joppe
+/restic/password.txt
 .env

@@ -1,0 +1,16 @@
+node_modules
+.DS_Store
+target/debug
+target/release
+bin
+obj
+dist
+build
+.nuget
+.cache/**
+**/.cache/
+**/.cache/**
+*/.cache/
+*/.cache
+.cache/
+*/.cache/*
