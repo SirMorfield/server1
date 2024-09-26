@@ -12,6 +12,7 @@ up: $(SECRETSFILE)
 $(SECRETSFILE): $(SECRETSFILE_ENCRYPTED)
 	gpg --yes --output $(SECRETSFILE) --decrypt $(SECRETSFILE_ENCRYPTED)
 	@echo "$(MAGENTA)Injecting secrets$(RESET)"
+	chmod 777 $(SECRETSFILE)
 	sh $(SECRETSFILE)
 	@echo "$(MAGENTA)Secrets injected succesfully$(RESET)"
 	@echo ''
