@@ -203,6 +203,16 @@ services:
           - ./runtimeGenerated/github-runner-celebratix/root/.nuget/packages:/root/.nuget/packages
           - ./runtimeGenerated/github-runner-celebratix/root/.npm:/root/.npm
 
+  factorio:
+    container_name: factorio
+    restart: unless-stopped
+    image: factoriotools/factorio
+    ports:
+      - 34197:34197/udp
+      - 27015:27015/tcp
+    volumes:
+      - ./runtimeGenerated/factorio:/factorio
+
   tunnel:
     container_name: tunnel
     depends_on:
