@@ -183,7 +183,7 @@ services:
 
   github-runner-celebratix:
       container_name: github-runner-celebratix
-      image: myoung34/github-runner:ubuntu-noble
+      image: ghcr.io/celebratix/docker-github-actions-runner:ubuntu-latest
       restart: unless-stopped
         # deploy:
         #       mode: replicated
