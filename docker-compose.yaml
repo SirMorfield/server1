@@ -201,7 +201,7 @@ services:
           - /var/run/docker.sock:/var/run/docker.sock
           - ./runtimeGenerated/github-runner-celebratix/runner:/runner
           - ./runtimeGenerated/github-runner-celebratix/root/.nuget/packages:/root/.nuget/packages
-          - ./runtimeGenerated/github-runner-celebratix/root/.npm:/root/.npm
+          - ./runtimeGenerated/github-runner-celebratix/var/lib/docker/overlay2:/var/lib/docker/overlay2
 
   factorio:
     container_name: factorio
