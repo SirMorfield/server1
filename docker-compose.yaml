@@ -29,9 +29,9 @@ services:
     environment:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_INCLUDE_RESTARTING=true
-      - WATCHTOWER_POLL_INTERVAL=30
+      - WATCHTOWER_POLL_INTERVAL=300
       - WATCHTOWER_ROLLING_RESTART=true
-    command: joppekoers.nl pixels cms
+    command: joppekoers.nl pixels cms github-runner-celebratix
 
   plex:
     container_name: plex
