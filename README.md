@@ -13,6 +13,7 @@ This repo is running the whole [joppekoers.nl](https://joppekoers.nl) infrastruc
 /bin/sh -c "$(curl -fsSL https://get.docker.com)"
 git clone git@github.com:SirMorfield/server1.git
 cd server1
+docker volume create nextcloud_aio_mastercontainer
 make up
 ```
 

@@ -18,31 +18,6 @@ services:
       - NET_ADMIN
     restart: unless-stopped
 
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
-      # - NVIDIA_DRIVER_CAPABILITIES=all
-      # - NVIDIA_VISIBLE_DEVICES=all
-      # - JELLYFIN_PublishedServerUrl=192.168.2.1 #optional
-    volumes:
-      - ./runtimeGenerated/jellyfin/config:/config
-      - ./runtimeGenerated/jellyfin/cache:/cache
-      - ${HOME}/files/series:/data/series
-      - ${HOME}/files/films:/data/films
-      - ${HOME}/files/torrents/downloaded:/data/torrents
-    ports:
-      - 8096:8096
-      - 8920:8920 #optional
-      - 7359:7359/udp #optional
-      - 1900:1900/udp #optional
-  deploy:
-    resources:
-      reservations:
-        devices:
-          - capabilities: [ gpu ]
 
   minecraft:
     container_name: minecraft
@@ -61,11 +36,11 @@ services:
 
   factorio:
     container_name: factorio
-    image: goofball222/factorio:experimental
     restart: unless-stopped
+    image: factoriotools/factorio
     ports:
-      - 27015:27015
       - 34197:34197/udp
+      - 27015:27015/tcp
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./runtimeGenerated/factorio:/factorio
@@ -80,48 +55,6 @@ services:
       - ${HOME}/files/dump/googleDrive/:/googleDrive
       - ./runtimeGenerated/rclone/var/log/:/var/log/
 
-  nextcloud-db:
-    container_name: nextcloud-db
-    restart: unless-stopped
-    image: mariadb:10.5
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    volumes:
-      - ./runtimeGenerated/nextcloud-db/var/lib/mysql:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-
-  nextcloud-app:
-    restart: unless-stopped
-    image: nextcloud
-    links:
-      - nextcloud-db
-    volumes:
-      - ./runtimeGenerated/nextcloud-app/var/www/html:/var/www/html
-      - ${PWD}/nextcloud/config.php:/var/www/html/config/config.php
-      - /home/joppe/files:/files
-    environment:
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud-db
-
-  cron:
-    image: rcdailey/nextcloud-cronjob
-    restart: unless-stopped
-    network_mode: none
-    depends_on:
-      - nextcloud-app
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - NEXTCLOUD_CONTAINER_NAME=nextcloud-app
-      - NEXTCLOUD_PROJECT_NAME=server1
-      - DEBUG=1
-
   samba:
     image: crazymax/samba
     restart: unless-stopped
@@ -134,3 +67,22 @@ services:
     environment:
       - TZ=Europe/Amsterdam
       - SAMBA_LOG_LEVEL=0
+
+  nfs:
+    container_name: nfs
+    restart: unless-stopped
+    image: erichough/nfs-server
+    privileged: true
+    volumes:
+      - /home/joppe/files:/share
+    environment:
+      - NFS_EXPORT_0=/share *(rw,fsid=0,insecure,no_subtree_check,all_squash)
+      # - NFS_EXPORT_0=/share joppe(rw,fsid=0,insecure,no_subtree_check,no_root_squash)
+    cap_add:
+      - SYS_ADMIN
+      - SETPCAP
+    ports:
+      - 111:111
+      - 2049:2049
+      - 32765:32765
+      - 32767:32767
