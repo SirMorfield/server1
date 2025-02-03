@@ -109,13 +109,24 @@ services:
 
   filebrowser:
     container_name: filebrowser
+    image: filebrowser/filebrowser
     volumes:
       - /home/joppe:/srv
       - ./runtimeGenerated/filebrowser/database.db:/database.db
       - ./runtimeGenerated/filebrowser/.filebrowser.json:/.filebrowser.json
     ports:
-      - 8080:80
-    image: filebrowser/filebrowser
+      - 1111:80
+
+  spacedrive:
+    container_name: spacedrive
+    image: ghcr.io/spacedriveapp/spacedrive/server
+    ports:
+      - 1112:8080
+    env_file:
+      - ./spacedrive/.env
+    volumes:
+      - ./runtimeGenerated/spacedrive/var/spacedrive:/var/spacedrive
+      - /home/joppe/files:/files
 
   datadog-agent:
     container_name: datadog-agent
