@@ -6,6 +6,9 @@ RESET = \033[0;0m
 MAGENTA = \033[0;35m
 # /Clolors
 
+first:
+	echo "No Command specified"
+
 up: $(SECRETSFILE)
 	docker compose up --build -d --remove-orphans
 

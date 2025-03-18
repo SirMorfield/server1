@@ -178,19 +178,18 @@ services:
         #       mode: replicated
         # replicas: 2
       environment:
-          - RUNNER_NAME_PREFIX=joppe-server1
-          - RUNNER_WORKDIR=/runner
-          - RUNNER_GROUP=joppe-group
+          - RUNNER_NAME_PREFIX=server1
           - RUNNER_SCOPE=org
           - ORG_NAME=Celebratix
-          - LABELS=joppe
+          - RUNNER_WORKDIR=/runner/work
+          - CONFIGURED_ACTIONS_RUNNER_FILES_DIR=/runner/persistent
+          - DISABLE_AUTOMATIC_DEREGISTRATION=true
       env_file:
           - ./github-runner-celebratix/.env
       volumes:
           - /var/run/docker.sock:/var/run/docker.sock
-          - ./runtimeGenerated/github-runner-celebratix/runner:/runner
-          - ./runtimeGenerated/github-runner-celebratix/root/.nuget/packages:/root/.nuget/packages
-          - ./runtimeGenerated/github-runner-celebratix/var/lib/docker/overlay2:/var/lib/docker/overlay2
+          - ./runtimeGenerated/github-runner-celebratix/runner/persistent:/runner/persistent
+          - ./runtimeGenerated/github-runner-celebratix/runner/work:/runner/work
 
   nextcloud-aio-mastercontainer:
     image: nextcloud/all-in-one:latest
